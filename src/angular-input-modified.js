@@ -107,11 +107,6 @@
 
                 // Watching for model value changes.
                 $scope.$watch(attrs.ngModel, function(value) {
-
-                    if (ngModel.$name == 'text-required') {
-                        console.log('Value for: ' + ngModel.$name + ' changed to: "' + value + '"');
-                    }
-
                     // If master value is not set.
                     if (initial) {
                         // Preserving master value.

@@ -1,3 +1,11 @@
+/**
+ * AngularJS module "angular-input-modified".
+ *
+ * @version 1.1.0
+ * @author Slava Fomin II <s.fomin@betsol.ru>
+ * @licence MIT
+ * @copyright Slava Fomin II, Better Solutions, 2014
+ */
 (function(window, angular) {
     'use strict';
 
@@ -20,6 +28,8 @@
             require: ['?ngModel', '?^form'],
             link: function($scope, $element, attrs, controllers) {
 
+                var modelName = attrs.ngModel;
+
                 // Handling controllers.
                 var ngModel = controllers[0];
                 var ngForm = controllers[1];
@@ -29,6 +39,33 @@
                 if (null === ngModel) {
                     return;
                 }
+
+                /**
+                 * Decorates element with proper CSS classes.
+                 */
+                var toggleCssClasses = function() {
+                    $animate.addClass($element, (ngModel.modified ? modifiedClassName : notModifiedClassName));
+                    $animate.removeClass($element, (ngModel.modified ? notModifiedClassName : modifiedClassName));
+                };
+
+                var updateModified = function(modelName, modified) {
+                    if (ngForm) {
+                        var index = ngForm.modifiedModels.indexOf(modelName);
+                        var exists = (-1 !== index);
+
+                        if (modified && !exists) {
+                            // Adding model name to the list of modified models.
+                            ngForm.modifiedModels.push(modelName);
+                            ngForm.modifiedCount++;
+                        } else if (!modified && exists) {
+                            // Removing model name from the list of modified models.
+                            ngForm.modifiedModels.splice(index, 1);
+                            ngForm.modifiedCount--;
+                        }
+
+                        ngForm.modified = (ngForm.modifiedCount > 0);
+                    }
+                };
 
                 // Saving handle to original $setPristine method.
                 var originalSetPristine = ngModel.$setPristine;
@@ -51,8 +88,13 @@
                  * Augmentation for original $setPristine method.
                  */
                 ngModel.$setPristine = function() {
+
                     // Calling original $setPristine method.
                     originalSetPristine.apply(this, arguments);
+
+                    if (ngModel.modified) {
+                        updateModified(modelName, false);
+                    }
 
                     // Updating parameters.
                     ngModel.masterValue = ngModel.$modelValue;
@@ -66,11 +108,19 @@
                  * Resets input value to the master.
                  */
                 ngModel.reset = function() {
-                    eval('$scope.' + attrs.ngModel + ' = ngModel.masterValue;');
+                    eval('$scope.' + modelName + ' = ngModel.masterValue;');
                 };
 
-                // If parent form element is present for this input.
-                if (ngForm) {
+                // If parent form element is present for this input and
+                // is not yet initialized.
+                if (ngForm && 'undefined' === typeof ngForm.modified) {
+
+                    ngForm.modified = false;
+                    ngForm.modifiedCount = 0;
+
+                    // List of modified models.
+                    ngForm.modifiedModels = [];
+
                     /**
                      * Resets all form inputs to it's master values.
                      */
@@ -84,18 +134,6 @@
                             }
                         });
                     };
-
-                    ngForm.modified = false;
-                    ngForm.modifiedCount = 0;
-                }
-
-                /**
-                 * Decorates element with proper CSS classes.
-                 */
-                var toggleCssClasses = function()
-                {
-                    $animate.addClass($element, (ngModel.modified ? modifiedClassName : notModifiedClassName));
-                    $animate.removeClass($element, (ngModel.modified ? notModifiedClassName : modifiedClassName));
                 }
 
                 /**
@@ -106,7 +144,7 @@
                 var initial = true;
 
                 // Watching for model value changes.
-                $scope.$watch(attrs.ngModel, function(value) {
+                $scope.$watch(modelName, function(value) {
                     // If master value is not set.
                     if (initial) {
                         // Preserving master value.
@@ -115,6 +153,7 @@
                         toggleCssClasses();
 
                     } else {
+
                         // Comparing current input value with preserved master value
                         // to determine if it's changed.
                         var modified = !valuesEqual(value, ngModel.masterValue);
@@ -122,10 +161,7 @@
                         // If modified flag is changed.
                         if (ngModel.modified !== modified) {
 
-                            if (ngForm) {
-                                ngForm.modifiedCount += (modified ? 1 : -1);
-                                ngForm.modified = (ngForm.modifiedCount > 0);
-                            }
+                            updateModified(modelName, modified);
 
                             // Setting new flag.
                             ngModel.modified = modified;
@@ -160,11 +196,14 @@
             if (value1 instanceof Date && value2 instanceof Date) {
                 // Comparing two dates.
                 return (value1.getTime() === value2.getTime());
+            } else {
+                // Comparing two generic objects using strong comparison.
+                return (value1 === value2);
             }
         }
 
-        // In all other cases.
-        return (value1 === value2);
+        // In all other cases using weak comparison.
+        return (value1 == value2);
     }
 
     /**

@@ -1,4 +1,4 @@
-# angular-input-modified 1.0.0
+# angular-input-modified 1.1.0
 
 This AngularJS module adds additional properties and methods to the `ngModel` and `ngForm` controllers
 to provide end-user with facilities to detect and indicate form input modifications.
@@ -39,10 +39,10 @@ It also supports animations if `ngAnimate` module is present.
 
 ### ngModel
 
-**masterValue** - 
+{\*} **masterValue** -
 initial value of the input field.
 
-**modified** - 
+{boolean} **modified** -
 flag that indicates whether the input value was modified.
 
 **reset()** - 
@@ -50,11 +50,14 @@ method to reset input value to it's initial state.
 
 ### ngForm
 
-**modifiedCount** - 
+{integer} **modifiedCount** -
 number of modified input types inside of the form.
 
-**modified** - 
+{boolean} **modified** -
 flag that indicates whether the form is modified (i.e. at least one element is modified).
+
+{string[]} **modifiedModels** -
+list of names for modified models.
 
 **reset()** - 
 method to reset all input values of the form to their initial states.

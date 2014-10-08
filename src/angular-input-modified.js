@@ -1,7 +1,7 @@
 /**
  * AngularJS module "angular-input-modified".
  *
- * @version 1.1.0
+ * @version 1.1.1
  * @author Slava Fomin II <s.fomin@betsol.ru>
  * @licence MIT
  * @copyright Slava Fomin II, Better Solutions, 2014

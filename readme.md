@@ -1,4 +1,4 @@
-# angular-input-modified 1.1.0
+# angular-input-modified 1.1.1
 
 This AngularJS module adds additional properties and methods to the `ngModel` and `ngForm` controllers
 to provide end-user with facilities to detect and indicate form input modifications.

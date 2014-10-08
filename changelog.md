@@ -1,5 +1,10 @@
 # angular-input-modified changelog
 
+## Version 1.1.1
+(08 October 2014)
+
+- Updated versioning (no code changes)
+
 ## Version 1.1.0
 (30 May 2014)
 

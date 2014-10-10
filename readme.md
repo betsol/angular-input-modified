@@ -1,4 +1,4 @@
-# angular-input-modified 1.1.1
+# angular-input-modified 1.1.2
 
 This AngularJS module adds additional properties and methods to the `ngModel` and `ngForm` controllers
 to provide end-user with facilities to detect and indicate form input modifications.
@@ -68,7 +68,7 @@ method to reset all input values of the form to their initial states.
 
 ### Install library with bower
 
-`bower install --save angular-input-modified`
+`bower install --save angular-input-modified#~1.1.2`
 
 ### Add library to your page
 
@@ -99,8 +99,8 @@ If you have found a bug or have another issue with the library - please [create 
 
 If you have a question - file it with [StackOverflow][so-ask] and send me a
 link to [s.fomin@betsol.ru][email]. I will be glad to help.
-Also, please add a [JSFiddle][jsfiddle] to demonstrate the issue if appropriate.
-You can even fork our [demo fiddle][demo].
+Also, please create a [plunk][plunker] to demonstrate the issue, if appropriate.
+You can even fork our [demo plunk][demo].
 
 Have any ideas or propositions? Feel free to contact me by the same [E-Mail address][email].
 
@@ -132,8 +132,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-[so-ask]: http://stackoverflow.com/questions/ask?tags=angularjs,javascript
-[email]: mailto:s.fomin@betsol.ru
-[jsfiddle]: http://jsfiddle.net/
-[demo]: http://jsfiddle.net/slavafomin/R6Yhx/
+[so-ask]:    http://stackoverflow.com/questions/ask?tags=angularjs,javascript
+[email]:     mailto:s.fomin@betsol.ru
+[plunker]:   http://plnkr.co/
+[demo]:      http://plnkr.co/edit/g2MDXv81OOBuGo6ORvdt?p=preview
 [new-issue]: https://github.com/betsol/angular-input-modified/issues/new

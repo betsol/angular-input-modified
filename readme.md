@@ -1,4 +1,4 @@
-# angular-input-modified 1.1.2
+# angular-input-modified 1.1.3
 
 This AngularJS module adds additional properties and methods to the `ngModel` and `ngForm` controllers
 to provide end-user with facilities to detect and indicate form input modifications.
@@ -22,6 +22,8 @@ Use them in your CSS to decorate input fields. You can combine multiple classes 
 For example this is the useful CSS selector to decorate as valid only modified elements: `input.ng-valid.ng-modified`.
 This way target user will see what elements were actually changed.
 
+It also supports animations if `ngAnimate` module is present.
+
 ### Example
 
 ``` css
@@ -31,36 +33,40 @@ input.ng-valid.ng-modified {
 }
 ```
 
-It also supports animations if `ngAnimate` module is present.
-
 ---
 
 ## API
 
 ### ngModel
 
-{\*} **masterValue** -
-initial value of the input field.
+Model controller properties and methods:
 
-{boolean} **modified** -
-flag that indicates whether the input value was modified.
-
-**reset()** - 
-method to reset input value to it's initial state.
+    PROPERTIES:
+    ==========
+    
+    *        masterValue  - initial value of the input field.
+    boolean  modified     - flag that indicates whether the input value was modified.
+    
+    METHODS:
+    =======
+    
+    void  reset()  - resets input value to it's initial state.
 
 ### ngForm
 
-{integer} **modifiedCount** -
-number of modified input types inside of the form.
+Form controller properties and methods:
 
-{boolean} **modified** -
-flag that indicates whether the form is modified (i.e. at least one element is modified).
+    PROPERTIES:
+    ==========
 
-{string[]} **modifiedModels** -
-list of names for modified models.
-
-**reset()** - 
-method to reset all input values of the form to their initial states.
+    integer   modifiedCount   - number of modified input types inside of the form.
+    boolean   modified        - flag that indicates whether the form is modified (i.e. at least one element is modified).
+    string[]  modifiedModels  - list of names for modified models.
+    
+    METHODS:
+    =======
+    
+    void  reset()  - method to reset all input values of the form to their initial states.
 
 ---
 
@@ -68,7 +74,7 @@ method to reset all input values of the form to their initial states.
 
 ### Install library with bower
 
-`bower install --save angular-input-modified#~1.1.2`
+`bower install --save angular-input-modified#~1.1.3`
 
 ### Add library to your page
 

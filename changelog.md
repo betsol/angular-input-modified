@@ -1,9 +1,20 @@
 # angular-input-modified changelog
 
+## Version 1.1.3
+(13 October 2014)
+
+- Done some serious refactoring.
+  Low-level details moved to a separate functions, so the main logic became more abstract and readable.
+  Performance and memory footprint should also improve
+- Fixed bug when empty element would not recover it's master value when reset is invoked on the parent form
+- Introduced distribution files (normal and minified versions) and a proper build process using **Gulp**
+- Improved README
+
 ## Version 1.1.2
 (13 October 2014)
 
 - Updated README (no code changes)
+- Added new Demo via **Plunker**
 
 ## Version 1.1.1
 (08 October 2014)

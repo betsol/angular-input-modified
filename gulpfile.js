@@ -1,6 +1,5 @@
 var del    = require('del');
 var gulp   = require('gulp');
-var clean  = require('gulp-clean');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var gutil  = require('gulp-util');
@@ -20,4 +19,5 @@ gulp.task('build', function () {
     ;
 });
 
+// @todo: make sure build is called AFTER the clean.
 gulp.task('default', ['clean', 'build']);

@@ -140,9 +140,8 @@
                     ngModel.masterValue = ngModel.$modelValue;
                     ngModel.modified = false;
 
-                    if (ngModel.modified) {
-                        onElementModified(modelName, false);
-                    }
+                    // Making sure form state is updated.
+                    onElementModified(modelName, false);
 
                     // Re-decorating the element.
                     toggleCssClasses();

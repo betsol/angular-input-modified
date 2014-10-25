@@ -1,5 +1,11 @@
 # angular-input-modified changelog
 
+## Version 1.1.4
+(25 October 2014)
+
+- Removed unused `gulp-clean` dependency.
+- Fixed an issue where form modification state will not be properly updated after a call to form's `$setPristine()` method.
+
 ## Version 1.1.3
 (13 October 2014)
 

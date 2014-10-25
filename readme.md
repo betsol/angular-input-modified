@@ -1,4 +1,4 @@
-# angular-input-modified 1.1.3
+# angular-input-modified 1.1.4
 
 This AngularJS module adds additional properties and methods to the `ngModel` and `ngForm` controllers
 to provide end-user with facilities to detect and indicate form input modifications.
@@ -74,7 +74,7 @@ Form controller properties and methods:
 
 ### Install library with bower
 
-`bower install --save angular-input-modified#~1.1.3`
+`bower install --save angular-input-modified#~1.1.4`
 
 ### Add library to your page
 

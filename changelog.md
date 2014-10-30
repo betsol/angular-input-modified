@@ -1,5 +1,11 @@
 # angular-input-modified changelog
 
+## Version 1.1.5
+(29 October 2014)
+
+- AngularJS 1.3 is now tested and supported.
+- Updated Demo plunk.
+
 ## Version 1.1.4
 (25 October 2014)
 

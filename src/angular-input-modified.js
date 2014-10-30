@@ -37,7 +37,7 @@
 
                 // ngModel is required for this directive to operate.
                 // ngForm is optional.
-                if (typeof ngModel === 'undefined') {
+                if (null === ngModel) {
                     return;
                 }
 

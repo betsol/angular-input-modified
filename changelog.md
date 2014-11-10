@@ -1,5 +1,15 @@
 # angular-input-modified changelog
 
+## Version 1.1.6
+(10 November 2014)
+
+- [\#2][issue-2]: Fixed *ngModel* existence check
+  (thanks to [@atte-backman][user-atte-backman]).
+- [\#3][issue-3]: Fixed a problem when *ngModel* pointing to a missing variable will cause exception when input is reset
+  (thanks to [@kornalius][user-kornalius]).
+- Done some minor refactoring.
+- Updated Demo plunk.
+
 ## Version 1.1.5
 (29 October 2014)
 
@@ -47,3 +57,16 @@
 (18 May 2014)
 
 - Public API stabilized
+
+
+  <!-- *** LINKS *** -->
+
+  <!-- Issues -->
+
+  [issue-2]: https://github.com/betsol/angular-input-modified/pull/2
+  [issue-3]: https://github.com/betsol/angular-input-modified/issues/3
+  
+  <!-- Users -->
+  
+  [user-atte-backman]: https://github.com/atte-backman
+  [user-kornalius]: https://github.com/kornalius

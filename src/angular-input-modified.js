@@ -29,7 +29,11 @@
             require: ['?ngModel', '?^form'],
             link: function($scope, $element, attrs, controllers) {
 
-                var modelName = attrs.ngModel;
+                /**
+                 * Path to a model variable inside the scope.
+                 * It can be as simple as: "foo" or as complex as "foo.bar[1].baz.qux".
+                 */
+                var modelPath = attrs.ngModel;
 
                 // Handling controllers.
                 var ngModel = controllers[0];
@@ -100,7 +104,7 @@
                         // If modified flag is changed.
                         if (ngModel.modified !== modified) {
 
-                            onElementModified(modelName, modified);
+                            onElementModified(modelPath, modified);
 
                             // Setting new flag.
                             ngModel.modified = modified;
@@ -141,17 +145,21 @@
                     ngModel.modified = false;
 
                     // Making sure form state is updated.
-                    onElementModified(modelName, false);
+                    onElementModified(modelPath, false);
 
                     // Re-decorating the element.
                     toggleCssClasses();
                 };
 
                 /**
-                 * Resets input value to the master.
+                 * Replaces current input value with a master value.
                  */
                 ngModel.reset = function() {
-                    eval('$scope.' + modelName + ' = ngModel.masterValue;');
+                    try {
+                        eval('$scope.' + modelPath + ' = ngModel.masterValue;');
+                    } catch (exception) {
+                        // Missing specified model. Do nothing.
+                    }
                 };
 
                 // If parent form element is present for this input and
@@ -161,7 +169,7 @@
                 }
 
                 // Watching for model value changes.
-                $scope.$watch(modelName, onInputValueChanged);
+                $scope.$watch(modelPath, onInputValueChanged);
             }
         };
     }

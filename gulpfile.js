@@ -8,7 +8,7 @@ gulp.task('clean', function (callback) {
     del(['dist'], callback);
 });
 
-gulp.task('build', function () {
+gulp.task('build', ['clean'], function () {
     gulp.src('src/angular-input-modified.js')
         .pipe(rename('angular-input-modified.js'))
         .pipe(gulp.dest('dist'))
@@ -19,5 +19,4 @@ gulp.task('build', function () {
     ;
 });
 
-// @todo: make sure build is called AFTER the clean.
-gulp.task('default', ['clean', 'build']);
+gulp.task('default', ['build']);

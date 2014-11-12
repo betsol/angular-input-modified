@@ -1,11 +1,11 @@
 {
   "devDependencies": {
-    "del": "^0.1.3",
-    "gulp": "^3.8.8",
-    "gulp-debug": "^1.0.1",
-    "gulp-gh-pages": "^0.4.0",
-    "gulp-rename": "^1.2.0",
-    "gulp-uglify": "^0.3.0",
-    "gulp-util": "^2.2.14"
+    "del": "~0",
+    "gulp": "~3",
+    "gulp-debug": "~1",
+    "gulp-gh-pages": "~0",
+    "gulp-rename": "~1",
+    "gulp-uglify": "~0",
+    "gulp-util": "~2"
   }
 }

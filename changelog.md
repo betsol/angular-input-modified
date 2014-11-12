@@ -1,6 +1,6 @@
 # angular-input-modified changelog
 
-## Version 1.1.7
+## Version 1.2.0
 (12 November 2014)
 
 - [\#4][issue-4]: Doesn't work with Ui-Bootstrap's Timepicker

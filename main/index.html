@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html ng-app="DemoApp">
+
+<head>
+    <link rel="stylesheet" href="//rawgit.com/twbs/bootstrap/v3.3.0/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body ng-controller="DefaultController">
+
+    <h1>AngularJS InputModified Main Demo</h1>
+
+    <form name="myForm" novalidate>
+
+        <pre>
+            Form modified: {{ myForm.modified ? 'Yes' : 'No' }}
+            Modified count: {{ myForm.modifiedCount }}
+            Modified models: {{ myForm.modifiedModels }}
+        </pre>
+
+        <!-- Full Name -->
+        <div class="form-group">
+            <label for="fullName" class="control-label">Full Name:</label>
+            <div class="control">
+                <input
+                    id="fullname"
+                    name="fullName"
+                    class="form-control"
+                    type="text"
+                    ng-model="user.fullName"
+                    required
+                >
+            </div>
+            <p class="reset">
+                <button ng-click="myForm.fullName.$setPristine()">Save This Field</button>
+                <button ng-click="myForm.fullName.reset()">Reset This Field</button>
+            </p>
+            <p class="master">Master: "{{ myForm.fullName.masterValue }}"</p>
+            <p class="modified">Modified: {{ myForm.fullName.modified ? 'Yes' : 'No' }}</p>
+        </div>
+
+        <!-- About -->
+        <div class="form-group">
+            <label for="about" class="control-label">About:</label>
+            <div class="control">
+                <input id="about" name="about" class="form-control" type="text" ng-model="user.about" />
+            </div>
+            <p class="reset">
+                <button ng-click="myForm.about.$setPristine()">Save This Field</button>
+                <button ng-click="myForm.about.reset()">Reset This Field</button>
+            </p>
+            <p class="master">Master: "{{ myForm.about.masterValue }}"</p>
+            <p class="modified">Modified: {{ myForm.about.modified ? 'Yes' : 'No' }}</p>
+        </div>
+
+        <!-- Gender -->
+        <div class="form-group" ng-class="{valid: myForm.gender.$valid, modified: myForm.gender.modified}">
+            <p class="text-primary">Using <strong>ngClass</strong> directive to decorate entire form-group</p>
+            <label class="control-label">Gender:</label>
+            <div class="control">
+                <div class="radio-inline">
+                    <label>
+                        <input type="radio" name="gender" ng-model="user.gender" value="male">
+                        Male
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        <input type="radio" name="gender" ng-model="user.gender" value="female">
+                        Female
+                    </label>
+                </div>
+                <div class="radio-inline">
+                    <label>
+                        <input type="radio" name="gender" ng-model="user.gender" value="unknown">
+                        It's hard to say
+                    </label>
+                </div>
+            </div>
+            <p class="reset">
+                <button ng-click="myForm.gender.$setPristine()">Save This Field</button>
+                <button ng-click="myForm.gender.reset()">Reset This Field</button>
+            </p>
+            <p class="master">Master: "{{ myForm.gender.masterValue }}"</p>
+            <p class="master">Value: "{{ user.gender }}"</p>
+            <p class="modified">Modified: {{ myForm.gender.modified ? 'Yes' : 'No' }}</p>
+        </div>
+
+        <!-- Select -->
+        <div class="form-group">
+            <label for="favorite-fruit" class="control-label">Favorite fruit:</label>
+            <div class="control">
+                <select
+                    id="favorite-fruit"
+                    name="favoriteFruit"
+                    class="form-control"
+                    ng-model="user.favoriteFruit"
+                    ng-options="fruit.title for fruit in fruits"
+                >
+                    <option value="">I don't like fruits</option>
+                </select>
+            </div>
+            <p class="reset">
+                <button ng-click="myForm.favoriteFruit.$setPristine()">Save This Field</button>
+                <button ng-click="myForm.favoriteFruit.reset()">Reset This Field</button>
+            </p>
+            <p class="master">Master: "{{ myForm.favoriteFruit.masterValue }}"</p>
+            <p class="modified">Modified: {{ myForm.favoriteFruit.modified ? 'Yes' : 'No' }}</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-group footer">
+            <p>Button is disabled when form is not modified <i>(nothing to save)</i>
+            </p>
+            <div class="control buttons">
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    ng-click="myForm.$setPristine()"
+                    ng-disabled="!myForm.modified"
+                >
+                    Save Form
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-default"
+                    ng-disabled="!myForm.modified"
+                    ng-click="myForm.reset()"
+                >Reset Form</button>
+            </div>
+        </div>
+
+    </form>
+
+    <!-- Scripts -->
+    <script src="//rawgit.com/angular/bower-angular/v1.3.2/angular.js"></script>
+    <script src="/library/angular-input-modified.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

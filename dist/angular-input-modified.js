@@ -32,15 +32,19 @@
         return {
             enableGlobally: function() {
                 config.enabledGlobally = true;
+                return this;
             },
             disableGlobally: function() {
                 config.enabledGlobally = false;
+                return this;
             },
             setModifiedClassName: function(modifiedClassName) {
                 config.modifiedClassName = String(modifiedClassName);
+                return this;
             },
             setNotModifiedClassName: function(notModifiedClassName) {
                 config.notModifiedClassName = String(notModifiedClassName);
+                return this;
             },
             $get: function() {
                 return config;

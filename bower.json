@@ -1,7 +1,7 @@
 {
     "name": "angular-input-modified",
     "description": "AngularJS module to detect and indicate input modifications",
-    "version": "1.1.6",
+    "version": "1.1.7",
     "main": "src/angular-input-modified.js",
     "dependencies": {
         "angular": "~1"

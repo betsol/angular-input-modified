@@ -1,5 +1,21 @@
 # angular-input-modified changelog
 
+## Version 1.1.7
+(12 November 2014)
+
+- [\#4][issue-4]: Doesn't work with Ui-Bootstrap's Timepicker
+  (thanks to [@prudd][user-prudd]).
+- [\#2][issue-2]: Fixed *ngModel* existence check.
+  Issue revisited.
+  Implemented general solution for both `1.2.x` and `1.3.x` branches of AngularJS
+- Added configuration provider
+- Introduced ability to disable directive globally
+- Introduced ability to enable directive only for specific elements or forms
+- CSS classes are now configurable
+- Added demos to the repository
+- Added *Gulp* task to deploy demos to *GitHub Pages*
+- Updated README
+
 ## Version 1.1.6
 (10 November 2014)
 
@@ -65,8 +81,10 @@
 
   [issue-2]: https://github.com/betsol/angular-input-modified/pull/2
   [issue-3]: https://github.com/betsol/angular-input-modified/issues/3
+  [issue-4]: https://github.com/betsol/angular-input-modified/issues/4
   
   <!-- Users -->
   
   [user-atte-backman]: https://github.com/atte-backman
   [user-kornalius]: https://github.com/kornalius
+  [user-prudd]: https://github.com/prudd

@@ -1,30 +1,26 @@
 # angular-input-modified
 
 This AngularJS module adds additional properties and methods to the `ngModel` and `ngForm` controllers
-to provide end-user with facilities to detect and indicate form input modifications.
+as well as CSS classes to the underlying form elements
+to provide end-user with facilities to detect and indicate changes in form data.
 
 This extra functionality allows you to provide better usability for forms.
 For example, you can add decorations to the form elements that are actually changed.
 That way, user will see what values has changed since last edit.
 
 Also, you can reset form to it's initial state (cancel all user edits) with just a single call to `form.reset()` or
-lock new values (preserve new state) just by calling `form.$setPristine()`.
+lock new values (preserve new state) just by calling augmented `form.$setPristine()` method.
 If you want, you can do this for individual input elements the same way.
 
-Please see [the Demo][demo].
+## Demos and examples
 
----
+Please see `/demos` directory or visit our [GitHub Pages][gh-pages]. 
 
 ## Decorations and animation
 
-This module adds `ng-modified` and `ng-not-modified` CSS classes to the input fields to indicate their state.
+This module adds `ng-modified` and `ng-not-modified` CSS classes (names are customizable) to the input fields to indicate their state.
 Use them in your CSS to decorate input fields. You can combine multiple classes in the same selector.
-For example this is the useful CSS selector to decorate as valid only modified elements: `input.ng-valid.ng-modified`.
-This way target user will see what elements were actually changed.
-
-It also supports animations if `ngAnimate` module is present.
-
-### Example
+For example, use this convenient CSS selector to decorate modified elements as valid:
 
 ``` css
 /** Decorating only modified inputs as valid */
@@ -33,9 +29,89 @@ input.ng-valid.ng-modified {
 }
 ```
 
+This way target user will see what elements were actually changed.
+
+---
+
+This module also supports animations if `ngAnimate` module is available.
+
+## Installation
+
+### Install library with bower
+
+`bower install --save angular-input-modified`
+
+### Add library to your page
+
+``` html
+<script type="text/javascript" src="angular-input-modified/src/angular-input-modified.js"></script>
+```
+
+You can use minified version (`angular-input-modified.min.js`) in production.
+
+### Add dependency in your application's module definition
+
+``` javascript
+var application = angular.module('application', [
+    // ...
+    'ngInputModified'
+]);
+```
+
+---
+
+## Usage
+
+Please see our [demos and examples](#demos-and-examples) as well as [API](#api).
+
 ---
 
 ## API
+
+### inputModifiedConfigProvider
+
+Use this provider to configure behavior of this module.
+Every setter of this provider supports methods chaining.
+See example:
+
+``` javascript
+angular.module('Application', ['ngInputModified'])
+    .config(function(inputModifiedConfigProvider) {
+        inputModifiedConfigProvider
+            .disableGlobally()
+            .setModifiedClassName('my-changed')
+            .setNotModifiedClassName('my-clear')
+        ;
+    })
+;
+```
+
+#### enableGlobally
+
+`{ConfigProvider} enableGlobally()`
+ 
+Enables modifiable behavior globally for all form elements (this is default).
+
+#### disableGlobally
+    
+`{ConfigProvider} disableGlobally()`
+
+Disables modifiable behavior globally for all form elements.
+You will have to add this behavior manually by using bsModifiable directive
+
+#### setModifiedClassName
+                                        
+`{ConfigProvider} setModifiedClassName({string} className)`
+
+Provides CSS class name that will be added to modified elements.
+`ng-modified` is the default one.
+
+#### setNotModifiedClassName
+                                        
+`{ConfigProvider} setNotModifiedClassName({string} className)`
+
+Provides CSS class name that will be added to unmodified elements.
+`ng-not-modified` is the default one.
 
 ### ngModel
 
@@ -70,34 +146,9 @@ Form controller properties and methods:
 
 ---
 
-## Installation
+## Changelog
 
-### Install library with bower
-
-`bower install --save angular-input-modified#~1.1.4`
-
-### Add library to your page
-
-``` html
-<script type="text/javascript" src="angular-input-modified/src/angular-input-modified.js"></script>
-```
-
-### Add dependency in your application's module definition
-
-``` javascript
-var application = angular.module('application', [
-    // ...
-    'ngInputModified'
-]);
-```
-
----
-
-## Usage
-
-Please see [the demo][demo] for all usage details. It has all the examples.
-
----
+Please see our [changelog](changelog.md).
 
 ## Feedback
 
@@ -138,8 +189,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-[so-ask]:    http://stackoverflow.com/questions/ask?tags=angularjs,javascript
-[email]:     mailto:s.fomin@betsol.ru
-[plunker]:   http://plnkr.co/
-[demo]:      http://plnkr.co/edit/g2MDXv81OOBuGo6ORvdt?p=preview
-[new-issue]: https://github.com/betsol/angular-input-modified/issues/new
+  [so-ask]:    http://stackoverflow.com/questions/ask?tags=angularjs,javascript
+  [email]:     mailto:s.fomin@betsol.ru
+  [plunker]:   http://plnkr.co/
+  [demo]:      http://plnkr.co/edit/g2MDXv81OOBuGo6ORvdt?p=preview
+  [new-issue]: https://github.com/betsol/angular-input-modified/issues/new
+  [gh-pages]:  http://betsol.github.io/angular-input-modified/

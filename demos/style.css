@@ -1,0 +1,85 @@
+body {
+    padding: 40px;
+    margin: 0 auto;
+    max-width: 800px;
+}
+
+p.subtitle {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/** Decorating elements as valid only if they are modified */
+.control input.ng-valid.ng-modified {
+    background-color: #EFE;
+    border-color: #6A6;
+}
+
+/** Decorating entire form-group */
+.form-group.valid.modified {
+    border-style: solid;
+    background-color: #EFE;
+    border-color: #6A6;
+}
+
+div.footer {
+    margin-top: 10px;
+}
+
+div.footer button {
+    margin-left: 5px;
+    padding: 5px 20px;
+}
+div.footer button:first-child {
+    margin-left: 0;
+}
+
+.control input.ng-invalid {
+    background-color: #FEE;
+    border-color: #F66;
+}
+
+.form-group {
+    margin: 10px;
+    padding: 10px;
+    border: 1px dashed #AAA;
+}
+
+.form-group label {
+    color: 000;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+p.master, p.modified {
+    margin: 0;
+    padding: 0;
+    color: #888;
+    font-family: monospace;
+    white-space: pre;
+}
+
+p.reset button {
+    padding: 0 5px;
+    font-size: 10px;
+    color: #333;
+}
+
+div.radio-inline {
+    display: inline-block;
+    margin-left: 10px;
+}
+div.radio-inline:first-child {
+    margin-left: 0;
+}
+div.radio-inline label {
+    font-weight: normal;
+}
+
+.timepicker input {
+    width: 50px;
+}
+
+.timepicker .form-group {
+    border: none;
+}

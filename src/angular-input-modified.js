@@ -1,32 +1,58 @@
-/**
- * AngularJS module "angular-input-modified".
- *
- * @version 1.1.5
- * @author Slava Fomin II <s.fomin@betsol.ru>
- * @licence MIT
- * @copyright Slava Fomin II, Better Solutions, 2014
- */
 (function(window, angular) {
 
     'use strict';
 
-    var modifiedClassName = 'ng-modified';
-    var notModifiedClassName = 'ng-not-modified';
-
-    var directiveSpecification = ['$animate', inputModifiedDirective];
+    var directiveSpecification = ['$animate', 'inputModifiedConfig', ModifiableBehaviorDirective];
 
     // Registering AngularJS module.
     angular.module('ngInputModified', ['ng'])
+        .directive('bsModifiable', ModifiableDirective)
         .directive('input',    directiveSpecification)
         .directive('textarea', directiveSpecification)
         .directive('select',   directiveSpecification)
+        .provider('inputModifiedConfig', ConfigProvider)
     ;
 
-    function inputModifiedDirective($animate)
+    function ModifiableDirective()
+    {
+        return {
+            'restrict': 'A',
+            controller: function() {}
+        };
+    }
+
+    function ConfigProvider()
+    {
+        var config = {
+            enabledGlobally: true,
+            modifiedClassName: 'ng-modified',
+            notModifiedClassName: 'ng-not-modified'
+        };
+
+        return {
+            enableGlobally: function() {
+                config.enabledGlobally = true;
+            },
+            disableGlobally: function() {
+                config.enabledGlobally = false;
+            },
+            setModifiedClassName: function(modifiedClassName) {
+                config.modifiedClassName = String(modifiedClassName);
+            },
+            setNotModifiedClassName: function(notModifiedClassName) {
+                config.notModifiedClassName = String(notModifiedClassName);
+            },
+            $get: function() {
+                return config;
+            }
+        };
+    }
+
+    function ModifiableBehaviorDirective($animate, config)
     {
         return {
             restrict: 'E',
-            require: ['?ngModel', '?^form'],
+            require: ['?ngModel', '?^form', '?^bsModifiable'],
             link: function($scope, $element, attrs, controllers) {
 
                 /**
@@ -38,10 +64,17 @@
                 // Handling controllers.
                 var ngModel = controllers[0];
                 var ngForm = controllers[1];
+                var bsModifiable = controllers[2];
 
                 // ngModel is required for this directive to operate.
                 // ngForm is optional.
-                if ('undefined' === typeof ngModel) {
+                if (!ngModel) {
+                    return;
+                }
+
+                // This behavior is applied only when form element or one of it's parents has a bsModifiable directive present
+                // or when global switch is set.
+                if (!config.enabledGlobally && !bsModifiable) {
                     return;
                 }
 
@@ -49,8 +82,8 @@
                  * Decorates element with proper CSS classes.
                  */
                 var toggleCssClasses = function() {
-                    $animate.addClass($element, (ngModel.modified ? modifiedClassName : notModifiedClassName));
-                    $animate.removeClass($element, (ngModel.modified ? notModifiedClassName : modifiedClassName));
+                    $animate.addClass($element, (ngModel.modified ? config.modifiedClassName : config.notModifiedClassName));
+                    $animate.removeClass($element, (ngModel.modified ? config.notModifiedClassName : config.modifiedClassName));
                 };
 
                 /**

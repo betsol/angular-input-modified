@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html ng-app="DemoApp">
+
+<head>
+    <link rel="stylesheet" href="//rawgit.com/twbs/bootstrap/v3.3.0/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body ng-controller="DefaultController">
+
+    <h1>AngularJS InputModified Demo</h1>
+    <p class="subtitle">AngularUI Bootstrap DatePicker & TimePicker Example</p>
+
+    <form name="taskForm" novalidate>
+
+        <pre>
+            Form modified: {{ taskForm.modified ? 'Yes' : 'No' }}
+            Modified count: {{ taskForm.modifiedCount }}
+            Modified models: {{ taskForm.modifiedModels }}
+        </pre>
+
+        <!-- Start date -->
+        <div class="form-group">
+            <label for="date-start" class="control-label">Start date:</label>
+            <div class="control">
+                <input
+                    id="date-start"
+                    name="dateStart"
+                    class="form-control"
+                    type="text"
+                    ng-model="task.dateStart"
+                    required
+                    datepicker-popup="dd.MM.yyyy"
+                    is-open="task.dateStart.opened"
+                    ng-focus="task.dateStart.opened = true"
+                    bs-modifiable
+                >
+            </div>
+
+            <timepicker
+                class="timepicker"
+                ng-model="task.dateStart"
+            ></timepicker>
+
+            <p class="reset">
+                <button ng-click="taskForm.dateStart.$setPristine()">Save This Field</button>
+                <button ng-click="taskForm.dateStart.reset()">Reset This Field</button>
+            </p>
+            <p class="master">Master: "{{ taskForm.dateStart.masterValue }}"</p>
+            <p class="modified">Modified: {{ taskForm.dateStart.modified ? 'Yes' : 'No' }}</p>
+        </div>
+
+        <!-- End date -->
+        <div class="form-group">
+            <label for="date-end" class="control-label">End date:</label>
+            <div class="control">
+                <input
+                    id="date-end"
+                    name="dateEnd"
+                    class="form-control"
+                    type="text"
+                    ng-model="task.dateEnd"
+                    required
+                    datepicker-popup="dd.MM.yyyy"
+                    is-open="task.dateEnd.opened"
+                    ng-focus="task.dateEnd.opened = true"
+                    bs-modifiable
+                >
+            </div>
+
+            <timepicker
+                class="timepicker"
+                ng-model="task.dateEnd"
+            ></timepicker>
+
+            <p class="reset">
+                <button ng-click="taskForm.dateEnd.$setPristine()">Save This Field</button>
+                <button ng-click="taskForm.dateEnd.reset()">Reset This Field</button>
+            </p>
+            <p class="master">Master: "{{ taskForm.dateEnd.masterValue }}"</p>
+            <p class="modified">Modified: {{ taskForm.dateEnd.modified ? 'Yes' : 'No' }}</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-group footer">
+            <p>
+                Button is disabled when form is not modified
+                <i>(nothing to save)</i>
+            </p>
+            <div class="control buttons">
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    ng-click="taskForm.$setPristine()"
+                    ng-disabled="!taskForm.modified"
+                >
+                    Save Form
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-default"
+                    ng-disabled="!taskForm.modified"
+                    ng-click="taskForm.reset()"
+                >Reset Form</button>
+            </div>
+        </div>
+
+    </form>
+
+    <!-- Scripts -->
+    <script src="//rawgit.com/angular/bower-angular/v1.3.2/angular.js"></script>
+    <script src="//rawgit.com/angular-ui/bootstrap-bower/0.11.2/ui-bootstrap.js"></script>
+    <script src="//rawgit.com/angular-ui/bootstrap-bower/0.11.2/ui-bootstrap-tpls.js"></script>
+    <script src="/library/angular-input-modified.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

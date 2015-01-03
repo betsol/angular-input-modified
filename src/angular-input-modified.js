@@ -10,6 +10,7 @@
         .directive('input',    directiveSpecification)
         .directive('textarea', directiveSpecification)
         .directive('select',   directiveSpecification)
+        .directive('uiSelect',   directiveSpecification)
         .provider('inputModifiedConfig', ConfigProvider)
     ;
 
@@ -178,7 +179,7 @@
                     originalSetPristine.apply(this, arguments);
 
                     // Updating parameters.
-                    ngModel.masterValue = ngModel.$modelValue;
+                    ngModel.masterValue = ngModel.$modelValue || null;
                     ngModel.modified = false;
 
                     // Making sure form state is updated.

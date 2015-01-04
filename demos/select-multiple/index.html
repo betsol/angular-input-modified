@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html ng-app="DemoApp">
+
+<head>
+    <link rel="stylesheet" href="//rawgit.com/twbs/bootstrap/v3.3.0/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body ng-controller="DefaultController">
+
+    <h1>AngularJS InputModified Multiple Select Demo</h1>
+
+    <p><a href="../">&leftarrow; See other demos</a></p>
+    <hr>
+
+    <form name="myForm" novalidate>
+
+        <pre>
+            Form modified: {{ myForm.modified ? 'Yes' : 'No' }}
+        </pre>
+
+        <!-- Favorite fruit -->
+        <div class="form-group">
+            <label for="favorite-fruit" class="control-label">Favorite fruit:</label>
+            <div class="control">
+                <select
+                    id="favorite-fruit"
+                    name="favoriteFruit"
+                    class="form-control"
+                    ng-model="user.favoriteFruit"
+                    ng-options="fruit.title for fruit in fruits"
+                    multiple
+                >
+                    <option value="">I don't like fruits</option>
+                </select>
+            </div>
+            <p class="reset">
+                <button ng-click="myForm.favoriteFruit.$setPristine()">Save This Field</button>
+                <button ng-click="myForm.favoriteFruit.reset()">Reset This Field</button>
+            </p>
+            <p>Value: "{{ user.favoriteFruit|json }}"</p>
+            <p class="master">Master: "{{ myForm.favoriteFruit.masterValue }}"</p>
+            <p class="modified">Modified: {{ myForm.favoriteFruit.modified ? 'Yes' : 'No' }}</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-group footer">
+            <p>Button is disabled when form is not modified <i>(nothing to save)</i>
+            </p>
+            <div class="control buttons">
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    ng-click="myForm.$setPristine()"
+                    ng-disabled="!myForm.modified"
+                >
+                    Save Form
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-default"
+                    ng-disabled="!myForm.modified"
+                    ng-click="myForm.reset()"
+                >Reset Form</button>
+            </div>
+        </div>
+
+    </form>
+
+    <!-- Scripts -->
+    <script src="../vendor/angular/angular.js"></script>
+    <script src="../vendor/angular-input-modified/angular-input-modified.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

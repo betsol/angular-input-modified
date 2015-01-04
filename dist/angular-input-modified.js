@@ -330,8 +330,8 @@
                 // Comparing two dates.
                 return (value1.getTime() === value2.getTime());
             } else {
-                // Comparing two generic objects using strong comparison.
-                return (value1 === value2);
+                // Comparing two objects using AngularJS equals method.
+                return angular.equals(value1, value2);
             }
         }
 

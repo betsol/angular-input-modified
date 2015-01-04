@@ -18,8 +18,6 @@
 
         <pre>
             Form modified: {{ taskForm.modified ? 'Yes' : 'No' }}
-            Modified count: {{ taskForm.modifiedCount }}
-            Modified models: {{ taskForm.modifiedModels }}
         </pre>
 
         <!-- Start date -->
@@ -111,10 +109,11 @@
     </form>
 
     <!-- Scripts -->
-    <script src="//rawgit.com/angular/bower-angular/v1.3.2/angular.js"></script>
+
+    <script src="/vendor/angular/angular.js"></script>
     <script src="//rawgit.com/angular-ui/bootstrap-bower/0.11.2/ui-bootstrap.js"></script>
     <script src="//rawgit.com/angular-ui/bootstrap-bower/0.11.2/ui-bootstrap-tpls.js"></script>
-    <script src="../library/angular-input-modified.js"></script>
+    <script src="/vendor/angular-input-modified/angular-input-modified.js"></script>
     <script src="script.js"></script>
 
 </body>

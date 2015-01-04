@@ -93,44 +93,66 @@
                 /**
                  * This handler is called when form element is modified.
                  *
-                 * @param {string} modelName
                  * @param {boolean} modified
                  */
-                var onElementModified = function(modelName, modified) {
-
-                    // Updating form when one of the inputs is modified.
-                    if (ngForm) {
-                        var index = ngForm.modifiedModels.indexOf(modelName);
-                        var exists = (-1 !== index);
-
-                        if (modified && !exists) {
-                            // Adding model name to the list of modified models.
-                            ngForm.modifiedModels.push(modelName);
-                            ngForm.modifiedCount++;
-                        } else if (!modified && exists) {
-                            // Removing model name from the list of modified models.
-                            ngForm.modifiedModels.splice(index, 1);
-                            ngForm.modifiedCount--;
-                        }
-
-                        // Form is considered modified when it has at least one modified element.
-                        ngForm.modified = (ngForm.modifiedCount > 0);
-                    }
+                var onElementModified = function(modified) {
+                    updateModifiedModelState(modified);
                 };
+
+                /**
+                 * Updating form when input is modified.
+                 *
+                 * @param {bool} modified
+                 */
+                var updateModifiedModelState = function(modified) {
+
+                    if (!ngForm) {
+                        // No need to do anything if form controller is missing.
+                        return;
+                    }
+
+                    var listIndex = ngForm.modifiedModels.indexOf(ngModel);
+                    var presentInList = (-1 !== listIndex);
+
+                    if (modified && !presentInList) {
+
+                        // Adding model to the internal list of modified models.
+                        ngForm.modifiedModels.push(ngModel);
+
+                        // Increasing number of modified models.
+                        ngForm.modifiedCount++;
+
+                    } else if (!modified && presentInList) {
+
+                        // Removing model from the internal list of modified models.
+                        ngForm.modifiedModels.splice(listIndex, 1);
+
+                        // Decreasing number of modified models.
+                        ngForm.modifiedCount--;
+                    }
+
+                    // Form is considered modified when it has at least one modified element.
+                    ngForm.modified = (ngForm.modifiedCount > 0);
+                };
+
+                // Flag to indicate that master value was initialized.
+                var masterValueIsSet = false;
 
                 /**
                  * Sets proper modification state for model controller according to current and master value.
                  */
                 var onInputValueChanged = function() {
 
-                    // If master value is not set.
-                    if ('undefined' === typeof ngModel.masterValue) {
+                    // If master value is not set (called only once).
+                    if (!masterValueIsSet) {
 
                         // Initializing the master value.
                         ngModel.masterValue = ngModel.$modelValue;
 
                         // Initially decorating the element.
                         toggleCssClasses();
+
+                        masterValueIsSet = true;
 
                     } else {
 
@@ -141,7 +163,7 @@
                         // If modified flag is changed.
                         if (ngModel.modified !== modified) {
 
-                            onElementModified(modelPath, modified);
+                            onElementModified(modified);
 
                             // Setting new flag.
                             ngModel.modified = modified;
@@ -182,7 +204,7 @@
                     ngModel.modified = false;
 
                     // Making sure form state is updated.
-                    onElementModified(modelPath, false);
+                    onElementModified(false);
 
                     // Re-decorating the element.
                     toggleCssClasses();

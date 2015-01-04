@@ -1,5 +1,16 @@
 # angular-input-modified changelog
 
+## Version 2.0.1
+(04 January 2015)
+
+### Changes
+
+- [\#7][issue-7]: "Array and object models are not compared using deep comparison"
+  (thanks to [Vaibhav][user-vaibhavguptaIITD]).
+  `angular.equals()` method is now used to deeply compare objects
+  
+- Added [demo][demo-select-multiple] for select field with `multiple` option
+
 ## Version 2.0.0
 (04 January 2015)
 
@@ -15,7 +26,7 @@ If you still need this functionality - please [create an issue][new-issue] to di
 
 ### Changes
 
-- [\#8][issue-4]: "Doesn't work when bound object member isn't set"
+- [\#8][issue-8]: "Doesn't work when bound object member isn't set"
   (thanks to [Chris Yates][user-cyates81]).
   We are now using a more robust way to initialize master value (initialization flag)
   
@@ -135,6 +146,7 @@ If you still need this functionality - please [create an issue][new-issue] to di
   <!-- Demos -->
   
   [demo-ng-repeat]: http://betsol.github.io/angular-input-modified/ng-repeat/
+  [demo-select-multiple]: http://betsol.github.io/angular-input-modified/select-multiple/
 
   <!-- Issues -->
 
@@ -142,6 +154,7 @@ If you still need this functionality - please [create an issue][new-issue] to di
   [issue-3]: https://github.com/betsol/angular-input-modified/issues/3
   [issue-4]: https://github.com/betsol/angular-input-modified/issues/4
   [issue-5]: https://github.com/betsol/angular-input-modified/issues/5
+  [issue-7]: https://github.com/betsol/angular-input-modified/issues/7
   [issue-8]: https://github.com/betsol/angular-input-modified/issues/8
   
   <!-- Users -->
@@ -150,3 +163,4 @@ If you still need this functionality - please [create an issue][new-issue] to di
   [user-kornalius]: https://github.com/kornalius
   [user-prudd]: https://github.com/prudd
   [user-cyates81]: https://github.com/cyates81
+  [user-vaibhavguptaIITD]: https://github.com/vaibhavguptaIITD

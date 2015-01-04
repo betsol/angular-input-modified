@@ -135,9 +135,7 @@ Form controller properties and methods:
     PROPERTIES:
     ==========
 
-    integer   modifiedCount   - number of modified input types inside of the form.
-    boolean   modified        - flag that indicates whether the form is modified (i.e. at least one element is modified).
-    string[]  modifiedModels  - list of names for modified models.
+    boolean  modified  - flag that indicates whether the form is modified (i.e. at least one element is modified).
     
     METHODS:
     =======

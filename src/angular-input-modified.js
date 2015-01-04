@@ -118,19 +118,24 @@
                     }
                 };
 
+                // Flag to indicate that master value was initialized.
+                var masterValueIsSet = false;
+
                 /**
                  * Sets proper modification state for model controller according to current and master value.
                  */
                 var onInputValueChanged = function() {
 
-                    // If master value is not set.
-                    if ('undefined' === typeof ngModel.masterValue) {
+                    // If master value is not set (called only once).
+                    if (!masterValueIsSet) {
 
                         // Initializing the master value.
                         ngModel.masterValue = ngModel.$modelValue;
 
                         // Initially decorating the element.
                         toggleCssClasses();
+
+                        masterValueIsSet = true;
 
                     } else {
 

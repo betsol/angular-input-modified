@@ -10,6 +10,7 @@
         .directive('input',    directiveSpecification)
         .directive('textarea', directiveSpecification)
         .directive('select',   directiveSpecification)
+        .directive('div', directiveSpecification)
         .provider('inputModifiedConfig', ConfigProvider)
     ;
 

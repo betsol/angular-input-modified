@@ -2,60 +2,10 @@
 
     'use strict';
 
-    var directiveSpecification = ['$animate', 'inputModifiedConfig', ModifiableBehaviorDirective];
-
-    // Registering AngularJS module.
-    angular.module('ngInputModified', ['ng'])
-        .directive('bsModifiable', ModifiableDirective)
-        .directive('input',    directiveSpecification)
-        .directive('textarea', directiveSpecification)
-        .directive('select',   directiveSpecification)
-        .provider('inputModifiedConfig', ConfigProvider)
-    ;
-
-    function ModifiableDirective()
+    var ModifiableBehaviorDirective = ['$animate', 'inputModifiedConfig', function($animate, config)
     {
         return {
-            'restrict': 'A',
-            controller: function() {}
-        };
-    }
-
-    function ConfigProvider()
-    {
-        var config = {
-            enabledGlobally: true,
-            modifiedClassName: 'ng-modified',
-            notModifiedClassName: 'ng-not-modified'
-        };
-
-        return {
-            enableGlobally: function() {
-                config.enabledGlobally = true;
-                return this;
-            },
-            disableGlobally: function() {
-                config.enabledGlobally = false;
-                return this;
-            },
-            setModifiedClassName: function(modifiedClassName) {
-                config.modifiedClassName = String(modifiedClassName);
-                return this;
-            },
-            setNotModifiedClassName: function(notModifiedClassName) {
-                config.notModifiedClassName = String(notModifiedClassName);
-                return this;
-            },
-            $get: function() {
-                return config;
-            }
-        };
-    }
-
-    function ModifiableBehaviorDirective($animate, config)
-    {
-        return {
-            restrict: 'E',
+            restrict: 'A',
             require: ['?ngModel', '?^form', '?^bsModifiable'],
             link: function($scope, $element, attrs, controllers) {
 
@@ -229,6 +179,58 @@
 
                 // Watching for model value changes.
                 $scope.$watch(modelPath, onInputValueChanged);
+            }
+        };
+    }];
+
+    // Registering AngularJS module.
+    angular.module('ngInputModified', ['ng'])
+        .directive('bsModifiable', ModifiableDirective)
+        .directive('ngModel', ModifiableBehaviorDirective)
+        .provider('inputModifiedConfig', ConfigProvider)
+    ;
+
+    /**
+     * This directive doesn't add any functionality, it serves as a marker for main directive.
+     *
+     * @constructor
+     * @returns {object}
+     */
+    function ModifiableDirective()
+    {
+        return {
+            'restrict': 'A',
+            controller: function() {}
+        };
+    }
+
+    function ConfigProvider()
+    {
+        var config = {
+            enabledGlobally: true,
+            modifiedClassName: 'ng-modified',
+            notModifiedClassName: 'ng-not-modified'
+        };
+
+        return {
+            enableGlobally: function() {
+                config.enabledGlobally = true;
+                return this;
+            },
+            disableGlobally: function() {
+                config.enabledGlobally = false;
+                return this;
+            },
+            setModifiedClassName: function(modifiedClassName) {
+                config.modifiedClassName = String(modifiedClassName);
+                return this;
+            },
+            setNotModifiedClassName: function(notModifiedClassName) {
+                config.notModifiedClassName = String(notModifiedClassName);
+                return this;
+            },
+            $get: function() {
+                return config;
             }
         };
     }

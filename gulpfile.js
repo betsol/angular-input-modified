@@ -1,10 +1,11 @@
-var del    = require('del');
-var gulp   = require('gulp');
-var rename = require('gulp-rename');
-var uglify = require('gulp-uglify');
-var gutil  = require('gulp-util');
-var deploy = require('gulp-gh-pages');
-var debug  = require('gulp-debug');
+var del     = require('del');
+var gulp    = require('gulp');
+var rename  = require('gulp-rename');
+var uglify  = require('gulp-uglify');
+var gutil   = require('gulp-util');
+var deploy  = require('gulp-gh-pages');
+var debug   = require('gulp-debug');
+var connect = require('gulp-connect');
 
 gulp.task('clean', function (callback) {
     del(['dist'], callback);
@@ -27,6 +28,13 @@ gulp.task('deploy', function () {
             title: 'Deploy'
         }))
         .pipe(deploy({}));
+});
+
+gulp.task('webserver', function() {
+    connect.server({
+        root: './demos',
+        port: 8888
+    });
 });
 
 gulp.task('default', ['build']);

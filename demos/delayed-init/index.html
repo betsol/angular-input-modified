@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html ng-app="DemoApp">
+
+<head>
+    <link rel="stylesheet" href="//rawgit.com/twbs/bootstrap/v3.3.2/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body ng-controller="DefaultController">
+
+    <h1>AngularJS InputModified Delayed Initialization Demo</h1>
+
+    <p><a href="../">&leftarrow; See other demos</a></p>
+    <hr>
+
+    <form name="myForm" novalidate>
+
+        <pre>
+            Form modified: {{ myForm.modified ? 'Yes' : 'No' }}
+        </pre>
+
+        <!-- Full Name -->
+        <div class="form-group">
+            <label for="fullName" class="control-label">Full Name:</label>
+            <div class="control">
+                <input
+                    id="fullname"
+                    name="fullName"
+                    class="form-control"
+                    type="text"
+                    ng-model="user.fullName"
+                    required
+                >
+            </div>
+            <p class="reset">
+                <button ng-click="myForm.fullName.$setPristine()">Save This Field</button>
+                <button ng-click="myForm.fullName.reset()">Reset This Field</button>
+            </p>
+            <p class="master">Master: "{{ myForm.fullName.masterValue }}"</p>
+            <p class="modified">Modified: {{ myForm.fullName.modified ? 'Yes' : 'No' }}</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="form-group footer">
+
+            <p>Press the button below to load the form data and to re-initialize the form manually.</p>
+
+            <div class="control buttons">
+                <button
+                    type="button"
+                    class="btn btn-warning"
+                    ng-click="loadFormData()"
+                    ng-disabled="loading"
+                >
+                    Load Form
+                </button>
+            </div>
+
+        </div>
+        <div class="form-group footer">
+
+            <div class="control buttons">
+                <p>
+                    Button is disabled when form is not modified
+                    <i>(nothing to save)</i>
+                </p>
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                    ng-click="myForm.$setPristine()"
+                    ng-disabled="!myForm.modified || loading"
+                >
+                    Save Form
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-default"
+                    ng-disabled="!myForm.modified || loading"
+                    ng-click="myForm.reset()"
+                >Reset Form</button>
+            </div>
+        </div>
+
+    </form>
+
+    <!-- Scripts -->
+    <script src="../vendor/angular/angular.js"></script>
+    <script src="../vendor/angular-input-modified/angular-input-modified.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

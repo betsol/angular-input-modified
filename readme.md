@@ -14,7 +14,7 @@ If you want, you can do this for individual input elements the same way.
 
 ## Demos and examples
 
-Please see `/demos` directory or visit our [GitHub Pages][gh-pages]. 
+Please see `/demos` directory or visit our [GitHub Pages][gh-pages].
 
 ## Decorations and animation
 
@@ -64,6 +64,18 @@ var application = angular.module('application', [
 
 Please see our [demos and examples](#demos-and-examples) as well as [API](#api).
 
+### Form initialization
+
+Starting from version `2.0.0` form must be synchronously initialized during
+controller execution. If you need some data to be fetched prior to form
+initialization — the best approach is to
+[resolve](https://docs.angularjs.org/api/ngRoute/provider/$routeProvider)
+this data using your router.
+
+However, if you really need to re-initialize form after controller execution —
+please use the approach shown in this demo:
+[Delayed Initialization][demo-delayed-init].
+
 ---
 
 ## API
@@ -89,25 +101,25 @@ angular.module('Application', ['ngInputModified'])
 #### enableGlobally
 
 `{ConfigProvider} enableGlobally()`
- 
+
 Enables modifiable behavior globally for all form elements (this is default).
 
 #### disableGlobally
-    
+
 `{ConfigProvider} disableGlobally()`
 
 Disables modifiable behavior globally for all form elements.
 You will have to add this behavior manually by using bsModifiable directive
 
 #### setModifiedClassName
-                                        
+
 `{ConfigProvider} setModifiedClassName({string} className)`
 
 Provides CSS class name that will be added to modified elements.
 `ng-modified` is the default one.
 
 #### setNotModifiedClassName
-                                        
+
 `{ConfigProvider} setNotModifiedClassName({string} className)`
 
 Provides CSS class name that will be added to unmodified elements.
@@ -119,13 +131,13 @@ Model controller properties and methods:
 
     PROPERTIES:
     ==========
-    
+
     *        masterValue  - initial value of the input field.
     boolean  modified     - flag that indicates whether the input value was modified.
-    
+
     METHODS:
     =======
-    
+
     void  reset()  - resets input value to it's initial state.
 
 ### ngForm
@@ -136,10 +148,10 @@ Form controller properties and methods:
     ==========
 
     boolean  modified  - flag that indicates whether the form is modified (i.e. at least one element is modified).
-    
+
     METHODS:
     =======
-    
+
     void  reset()  - method to reset all input values of the form to their initial states.
 
 ---
@@ -190,6 +202,9 @@ THE SOFTWARE.
   [so-ask]:    http://stackoverflow.com/questions/ask?tags=angularjs,javascript
   [email]:     mailto:s.fomin@betsol.ru
   [plunker]:   http://plnkr.co/
-  [demo]:      http://plnkr.co/edit/g2MDXv81OOBuGo6ORvdt?p=preview
   [new-issue]: https://github.com/betsol/angular-input-modified/issues/new
   [gh-pages]:  http://betsol.github.io/angular-input-modified/
+  [demo]:      http://plnkr.co/edit/g2MDXv81OOBuGo6ORvdt?p=preview
+
+  <!-- DEMOS -->
+  [demo-delayed-init]: http://betsol.github.io/angular-input-modified/delayed-init/

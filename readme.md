@@ -14,7 +14,8 @@ If you want, you can do this for individual input elements the same way.
 
 ## Demos and examples
 
-Please see `/demos` directory or visit our [GitHub Pages][gh-pages].
+Please see [the demos][gh-pages] hosted on our GitHub Pages or
+[open them locally][faq-local-demos].
 
 ## Decorations and animation
 
@@ -173,6 +174,17 @@ Have any ideas or propositions? Feel free to contact me by the same [E-Mail addr
 
 Cheers!
 
+## FAQ
+
+### How do I access demos locally?
+
+Node.js must be installed in your OS.
+
+- Install [Gulp][gulp] by running `npm install --global gulp`
+- clone the repo
+- run `gulp webserver` in the repo's root directory
+- open `http://localhost:8888/`
+
 ---
 
 ## License
@@ -205,6 +217,12 @@ THE SOFTWARE.
   [new-issue]: https://github.com/betsol/angular-input-modified/issues/new
   [gh-pages]:  http://betsol.github.io/angular-input-modified/
   [demo]:      http://plnkr.co/edit/g2MDXv81OOBuGo6ORvdt?p=preview
+  [gulp]:      http://gulpjs.com/
 
   <!-- DEMOS -->
+
   [demo-delayed-init]: http://betsol.github.io/angular-input-modified/delayed-init/
+
+  <!-- FAQ -->
+
+  [faq-local-demos]: #how-do-i-access-demos-locally

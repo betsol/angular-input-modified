@@ -1,5 +1,15 @@
 # angular-input-modified changelog
 
+## Version 2.0.2
+(23 January 2015)
+
+### Changes
+
+- Directive is now attached by `ngModel` attribute
+- Added `webserver` task to the `gulpfile` to [run demos locally][readme-faq-local-demos]
+- Added [form initialization][readme-form-init] section to the [README][readme]
+- Added [delayed initialization demo][demo-delayed-init]
+
 ## Version 2.0.1
 (04 January 2015)
 
@@ -149,8 +159,9 @@ section of the [README][readme].
 
   <!-- Demos -->
 
-  [demo-ng-repeat]: http://betsol.github.io/angular-input-modified/ng-repeat/
+  [demo-ng-repeat]:       http://betsol.github.io/angular-input-modified/ng-repeat/
   [demo-select-multiple]: http://betsol.github.io/angular-input-modified/select-multiple/
+  [demo-delayed-init]:    http://betsol.github.io/angular-input-modified/delayed-init/
 
   <!-- Issues -->
 
@@ -170,3 +181,4 @@ section of the [README][readme].
   [user-vaibhavguptaIITD]: https://github.com/vaibhavguptaIITD
 
   [readme-form-init]: readme.md#form-initialization
+  [readme-faq-local-demos]: readme.md#how-do-i-access-demos-locally

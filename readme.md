@@ -17,6 +17,8 @@ If you want, you can do this for individual input elements the same way.
 Please see [the demos][gh-pages] hosted on our GitHub Pages or
 [open them locally][faq-local-demos].
 
+Also, feel free to play with our [Plunk][plunk]!
+
 ## Decorations and animation
 
 This module adds `ng-modified` and `ng-not-modified` CSS classes (names are customizable) to the input fields to indicate their state.
@@ -168,7 +170,7 @@ If you have found a bug or have another issue with the library - please [create 
 If you have a question - file it with [StackOverflow][so-ask] and send me a
 link to [s.fomin@betsol.ru][email]. I will be glad to help.
 Also, please create a [plunk][plunker] to demonstrate the issue, if appropriate.
-You can even fork our [demo plunk][demo].
+You can even fork our [demo plunk][plunk].
 
 Have any ideas or propositions? Feel free to contact me by the same [E-Mail address][email].
 
@@ -216,7 +218,7 @@ THE SOFTWARE.
   [plunker]:   http://plnkr.co/
   [new-issue]: https://github.com/betsol/angular-input-modified/issues/new
   [gh-pages]:  http://betsol.github.io/angular-input-modified/
-  [demo]:      http://plnkr.co/edit/g2MDXv81OOBuGo6ORvdt?p=preview
+  [plunk]:      http://plnkr.co/edit/g2MDXv81OOBuGo6ORvdt?p=preview
   [gulp]:      http://gulpjs.com/
 
   <!-- DEMOS -->

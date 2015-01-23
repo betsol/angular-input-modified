@@ -13,16 +13,20 @@ you should not relay on them, cause their behavior can change in the future:
 
 If you still need this functionality - please [create an issue][new-issue] to discuss this.
 
+Also, form initialization strategy has changed - please see the
+[Form initialization][readme-form-init]
+section of the [README][readme].
+
 ### Changes
 
 - [\#8][issue-4]: "Doesn't work when bound object member isn't set"
   (thanks to [Chris Yates][user-cyates81]).
   We are now using a more robust way to initialize master value (initialization flag)
-  
+
 - [\#5][issue-5]: "Issues with ng-repeat"
   (thanks to [@prudd][user-prudd]).
   We are now storing a list of references to the modified model controllers instead of their names
-  
+
 - Updated all demos
 - All dependencies for demos are now included with *Bower*
 - Added [`ngRepeat` example][demo-ng-repeat] to the repository
@@ -35,11 +39,11 @@ If you still need this functionality - please [create an issue][new-issue] to di
 
 - [\#4][issue-4]: "Doesn't work with Ui-Bootstrap's Timepicker"
   (thanks to [@prudd][user-prudd])
-  
+
 - [\#2][issue-2]: "Fixed *ngModel* existence check".
   Issue revisited.
   Implemented general solution for both `1.2.x` and `1.3.x` branches of AngularJS
-  
+
 - Added configuration provider
 - Introduced ability to disable directive globally
 - Introduced ability to enable directive only for specific elements or forms
@@ -55,11 +59,11 @@ If you still need this functionality - please [create an issue][new-issue] to di
 
 - [\#2][issue-2]: "Fixed *ngModel* existence check"
   (thanks to [@atte-backman][user-atte-backman])
-  
+
 - [\#3][issue-3]: "Crashes if model property does not exists when eval() in reset function"
   (thanks to [@kornalius][user-kornalius]).
   Fixed a problem when *ngModel* pointing to a missing variable will cause exception when input is reset
-  
+
 - Done some minor refactoring
 - Updated Demo Plunk
 
@@ -87,7 +91,7 @@ If you still need this functionality - please [create an issue][new-issue] to di
 - Done some serious refactoring.
   Low-level details moved to a separate functions, so the main logic became more abstract and readable.
   Performance and memory footprint should also improve
-  
+
 - Fixed bug when empty element would not recover it's master value when reset is invoked on the parent form
 - Introduced distribution files (normal and minified versions) and a proper build process using **Gulp**
 - Improved [README][readme]
@@ -128,12 +132,12 @@ If you still need this functionality - please [create an issue][new-issue] to di
 
 
   <!-- *** LINKS *** -->
-  
+
   [readme]: readme.md
   [new-issue]: https://github.com/betsol/angular-input-modified/issues/new
-  
+
   <!-- Demos -->
-  
+
   [demo-ng-repeat]: http://betsol.github.io/angular-input-modified/ng-repeat/
 
   <!-- Issues -->
@@ -143,10 +147,12 @@ If you still need this functionality - please [create an issue][new-issue] to di
   [issue-4]: https://github.com/betsol/angular-input-modified/issues/4
   [issue-5]: https://github.com/betsol/angular-input-modified/issues/5
   [issue-8]: https://github.com/betsol/angular-input-modified/issues/8
-  
+
   <!-- Users -->
-  
+
   [user-atte-backman]: https://github.com/atte-backman
   [user-kornalius]: https://github.com/kornalius
   [user-prudd]: https://github.com/prudd
   [user-cyates81]: https://github.com/cyates81
+
+  [readme-form-init]: readme.md#form-initialization

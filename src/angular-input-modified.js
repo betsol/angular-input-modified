@@ -83,6 +83,22 @@
 
                     // Form is considered modified when it has at least one modified element.
                     ngForm.modified = (ngForm.modifiedCount > 0);
+                    
+                    //Update All Parent Forms
+                    var parentForm = ngForm.$$parentForm;
+                    while (parentForm != null) {
+                    	if (parentForm.modifiedCount == null) parentForm.modifiedCount = {};
+                    	parentForm.modifiedCount[ngForm.$name] = ngForm.modifiedCount;
+                    	
+                    	var modifiedTotal = 0;
+                    	angular.forEach(parentForm.modifiedCount, function (value, key) {
+                    		modifiedTotal += value;
+                    	})
+                    	
+                    	parentForm.modified = modifiedTotal > 0;
+                    	
+                    	parentForm = parentForm.$$parentForm;
+                    }
                 };
 
                 // Flag to indicate that master value was initialized.

@@ -7,6 +7,6 @@
     "gulp-rename": "~1",
     "gulp-uglify": "~0",
     "gulp-util": "~2",
-    "gulp-connect": "~2.2.0"
+    "spa-server": "^0.1.0"
   }
 }

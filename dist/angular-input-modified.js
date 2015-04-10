@@ -9,6 +9,15 @@
     .provider('inputModifiedConfig', ConfigProvider)
   ;
 
+  /**
+   * This directive extends ng-model with modifiable behavior.
+   *
+   * @constructor
+   * @param {object} $animate
+   * @param {object} inputModifiedConfig
+   *
+   * @returns {object}
+   */
   function ModifiableBehaviorDirective ($animate, inputModifiedConfig) {
 
     // Shortcut.
@@ -92,7 +101,7 @@
             // Setting new flag.
             ngModel.modified = modified;
 
-            updateFormModifiedState(ngForm, ngModel);
+            updateFormModifiedStateByModel(ngForm, ngModel);
 
             // Re-decorating the element.
             updateCssClasses();
@@ -148,7 +157,7 @@
           ngModel.modified = false;
 
           // Making sure form state is updated.
-          updateFormModifiedState(ngForm, ngModel);
+          updateFormModifiedStateByModel(ngForm, ngModel);
 
           // Re-decorating the element.
           updateCssClasses();
@@ -174,6 +183,7 @@
    * it serves as a mere marker for main directive.
    *
    * @constructor
+   *
    * @returns {object}
    */
   function ModifiableDirective () {
@@ -228,7 +238,7 @@
    * @param {object} ngForm
    * @param {object} ngModel
    */
-  function updateFormModifiedState (ngForm, ngModel) {
+  function updateFormModifiedStateByModel (ngForm, ngModel) {
 
     if (!ngForm) {
       // No need to do anything if form controller is missing.
@@ -275,6 +285,21 @@
   }
 
   /**
+   * Returns true if specified parameters is Angular form controller,
+   * false otherwise.
+   *
+   * @param {*} ngForm
+   *
+   * @returns {boolean}
+   */
+  function isFormController (ngForm) {
+    return (
+         'object' === typeof ngForm
+      && '$submitted' in ngForm
+    );
+  }
+
+  /**
    * Returns true if specified form controller is initialized, false otherwise.
    *
    * @param {object} ngForm
@@ -313,6 +338,23 @@
   }
 
   /**
+   * Iterates form parents.
+   *
+   * @param {object} ngForm
+   * @param {function} iterator
+   */
+  function iterateFormParents (ngForm, iterator) {
+    var isActualForm;
+    do {
+      ngForm = ngForm.$$parentForm;
+      isActualForm = isFormController(ngForm);
+      if (isActualForm) {
+        iterator(ngForm);
+      }
+    } while (isActualForm);
+  }
+
+  /**
    * Initializes specified form controller.
    *
    * @param {object} ngForm
@@ -320,10 +362,14 @@
   function initializeForm (ngForm) {
 
     ngForm.modified = false;
-    ngForm.modifiedCount = 0;
 
-    // List of modified models.
+    // Modified models.
+    ngForm.modifiedCount = 0;
     ngForm.modifiedModels = [];
+
+    // Modified child forms.
+    ngForm.modifiedChildFormsCount = 0;
+    ngForm.modifiedChildForms = [];
 
     ngForm.reset = resetForm;
   }

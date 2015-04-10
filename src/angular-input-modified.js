@@ -9,6 +9,15 @@
     .provider('inputModifiedConfig', ConfigProvider)
   ;
 
+  /**
+   * This directive extends ng-model with modifiable behavior.
+   *
+   * @constructor
+   * @param {object} $animate
+   * @param {object} inputModifiedConfig
+   *
+   * @returns {object}
+   */
   function ModifiableBehaviorDirective ($animate, inputModifiedConfig) {
 
     // Shortcut.
@@ -174,6 +183,7 @@
    * it serves as a mere marker for main directive.
    *
    * @constructor
+   *
    * @returns {object}
    */
   function ModifiableDirective () {

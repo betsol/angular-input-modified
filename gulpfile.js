@@ -6,6 +6,7 @@ var gutil = require('gulp-util');
 var deploy = require('gulp-gh-pages');
 var debug = require('gulp-debug');
 var serverFactory = require('spa-server');
+var ngAnnotate = require('gulp-ng-annotate');
 
 
 gulp.task('clean', function (callback) {
@@ -17,6 +18,9 @@ gulp.task('build', ['clean'], function () {
   gulp.src('src/angular-input-modified.js')
     .pipe(rename('angular-input-modified.js'))
     .pipe(gulp.dest('dist'))
+    .pipe(ngAnnotate({
+      'single_quotes': true
+    }))
     .pipe(uglify())
     .pipe(rename('angular-input-modified.min.js'))
     .pipe(gulp.dest('dist'))

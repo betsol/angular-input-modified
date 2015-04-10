@@ -224,8 +224,7 @@ We will re-compile the module manually each time before releasing.
 
 ## Support
 
-If you like this library consider to add star on [GitHub repository][repo-gh]
-and on [NPM][repo-npm].
+If you like this library consider to add star on [GitHub repository][repo-gh].
 
 Thank you!
 
@@ -234,7 +233,7 @@ Thank you!
 
 The MIT License (MIT)
 
-Copyright (c) 2014—2015 Slava Fomin II, BETTER SOLUTIONS
+Copyright (c) 2014 - 2015 Slava Fomin II, BETTER SOLUTIONS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -262,6 +261,7 @@ THE SOFTWARE.
   [gh-pages]:  http://betsol.github.io/angular-input-modified/
   [plunk]:     http://plnkr.co/edit/g2MDXv81OOBuGo6ORvdt?p=preview
   [gulp]:      http://gulpjs.com/
+  [repo-gh]:   https://github.com/betsol/angular-input-modified
 
   [demo-delayed-init]: http://betsol.github.io/angular-input-modified/delayed-init/
 

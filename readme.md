@@ -30,16 +30,14 @@ This module adds `ng-modified` and `ng-not-modified` CSS classes (names are cust
 Use them in your CSS to decorate input fields. You can combine multiple classes in the same selector.
 For example, use this convenient CSS selector to decorate modified elements as valid:
 
-``` css
+```css
 /** Decorating only modified inputs as valid */
 input.ng-valid.ng-modified {
     border-color: green;
 }
 ```
 
-This way target user will see what elements were actually changed.
-
----
+This way end user will see what elements were actually changed.
 
 This module also supports animations if `ngAnimate` module is available.
 
@@ -54,27 +52,25 @@ This module also supports animations if `ngAnimate` module is available.
 ### Add library to your page
 
 ``` html
-<script type="text/javascript" src="angular-input-modified/src/angular-input-modified.js"></script>
+<script src="/bower_components/angular-input-modified/dist/angular-input-modified.js"></script>
 ```
 
-You can use minified version (`angular-input-modified.min.js`) in production.
+You should use minified version (`angular-input-modified.min.js`) in production.
 
 
 ### Add dependency in your application's module definition
 
 ``` javascript
 var application = angular.module('application', [
-    // ...
-    'ngInputModified'
+  // ...
+  'ngInputModified'
 ]);
 ```
-
----
 
 
 ## Usage
 
-Please see our [demos and examples](#demos-and-examples) as well as [API](#api).
+Please see our [demos and examples](#demos-and-examples) as well as [API documentation](#api).
 
 ### Form initialization
 
@@ -88,8 +84,6 @@ However, if you really need to re-initialize form after controller execution —
 please use the approach shown in this demo:
 [Delayed Initialization][demo-delayed-init].
 
----
-
 
 ## API
 
@@ -99,15 +93,15 @@ Use this provider to configure behavior of this module.
 Every setter of this provider supports methods chaining.
 See example:
 
-``` javascript
+```javascript
 angular.module('Application', ['ngInputModified'])
-    .config(function(inputModifiedConfigProvider) {
-        inputModifiedConfigProvider
-            .disableGlobally()
-            .setModifiedClassName('my-changed')
-            .setNotModifiedClassName('my-clear')
-        ;
-    })
+  .config(function(inputModifiedConfigProvider) {
+    inputModifiedConfigProvider
+      .disableGlobally()
+      .setModifiedClassName('my-changed')
+      .setNotModifiedClassName('my-clear')
+    ;
+  })
 ;
 ```
 
@@ -173,8 +167,6 @@ Form controller properties and methods:
 
     void  reset()  - method to reset all input values of the form to their initial states.
 
----
-
 
 ## Changelog
 
@@ -201,7 +193,7 @@ Cheers!
 
 Node.js must be installed in your OS.
 
-- Install [Gulp][gulp] by running `npm install --global gulp`
+- Install [Gulp][gulp] by running `npm install -g gulp`
 - clone the repo
 - run `gulp webserver` in the repo's root directory
 - open `http://localhost:8888/`

@@ -378,7 +378,7 @@
    * Resets all form inputs to it's master values.
    */
   function resetForm (ngForm) {
-    ngForm = ngForm || this;
+    ngForm = (ngForm || this);
     iterateFormElements(ngForm, function (ngModel) {
       if (isModelControllerInitialized(ngModel)) {
         ngModel.reset();

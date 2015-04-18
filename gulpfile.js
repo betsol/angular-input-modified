@@ -1,3 +1,7 @@
+//==============//
+// DEPENDENCIES //
+//==============//
+
 var del = require('del');
 var gulp = require('gulp');
 var rename = require('gulp-rename');
@@ -7,12 +11,28 @@ var deploy = require('gulp-gh-pages');
 var debug = require('gulp-debug');
 var serverFactory = require('spa-server');
 var ngAnnotate = require('gulp-ng-annotate');
+var angularProtractor = require('gulp-angular-protractor');
+var runSequence = require('run-sequence');
 
+//=========//
+// GLOBALS //
+//=========//
+
+var demoServer;
+
+
+//=======//
+// CLEAN //
+//=======//
 
 gulp.task('clean', function (callback) {
   del(['dist'], callback);
 });
 
+
+//=======//
+// BUILD //
+//=======//
 
 gulp.task('build', ['clean'], function () {
   gulp.src('src/angular-input-modified.js')
@@ -29,7 +49,33 @@ gulp.task('build', ['clean'], function () {
 });
 
 
-gulp.task('deploy', function () {
+//===========//
+// WEBSERVER //
+//===========//
+
+gulp.task('webserver.start', function (callback) {
+  demoServer = serverFactory.create({
+    path: './demos',
+    port: 8888,
+    serveStaticConfig: {
+      index: 'index.html'
+    }
+  });
+  demoServer.start(callback);
+});
+
+gulp.task('webserver.stop', function (callback) {
+  demoServer.stop(callback);
+});
+
+
+//=======//
+// DEMOS //
+//=======//
+
+gulp.task('demo', ['webserver.start']);
+
+gulp.task('demo-deploy', function () {
   return gulp.src('./demos/**/*.*')
     .pipe(debug({
       title: 'Deploy'
@@ -38,16 +84,37 @@ gulp.task('deploy', function () {
 });
 
 
-gulp.task('webserver', function () {
-  var server = serverFactory.create({
-    path: './demos',
-    port: 8888,
-    serveStaticConfig: {
-      index: 'index.html'
-    }
-  });
-  server.start();
+//=======//
+// TESTS //
+//=======//
+
+gulp.task('test', function (callback) {
+  // Starting web-server, then running end-to-end tests on it.
+  runSequence('webserver.start', 'test-e2e', 'webserver.stop', callback);
 });
 
+
+//------------//
+// TESTS: E2E //
+//------------//
+
+gulp.task('test-e2e', function () {
+  return gulp.src(['./tests/e2e/spec.js'])
+    .pipe(angularProtractor({
+      configFile: './tests/e2e/conf.js',
+      args: ['--baseUrl', 'http://localhost:8888'],
+      autoStartStopServer: true,
+      debug: true
+    }))
+    .on('error', function (error) {
+      throw error;
+    })
+  ;
+});
+
+
+//==============//
+// DEFAULT TASK //
+//==============//
 
 gulp.task('default', ['build']);

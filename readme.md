@@ -195,7 +195,7 @@ Node.js must be installed in your OS.
 
 - Install [Gulp][gulp] by running `npm install -g gulp`
 - clone the repo
-- run `gulp webserver` in the repo's root directory
+- run `gulp demo` in the repo's root directory
 - open `http://localhost:8888/`
 
 
@@ -207,8 +207,8 @@ Run:
 
 - `npm install && bower install` to initialize the project
 - `gulp build` to re-build the dist files
-- `gulp webserver` to run local webserver with demos
-- `gulp deploy` to deploy GitHub Pages
+- `gulp demo` to run local webserver with demos
+- `gulp demo-deploy` to deploy GitHub Pages
 
 Do not add dist files to the PR itself.
 We will re-compile the module manually each time before releasing.

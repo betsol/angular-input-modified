@@ -1,9 +1,15 @@
-describe('Main Demo', function() {
-  it('should have a title', function() {
+describe('Input Modified', function() {
 
-    browser.get('/main/');
+  describe('Main Demo', function() {
 
-    expect(element(by.tagName('h1')).getText()).toEqual('Angular.js Input Modified Main Demo');
+    beforeEach(function () {
+      browser.get('/main/');
+    });
+
+    it('should have a proper title', function() {
+      expect(element(by.tagName('h1')).getText()).toEqual('Angular.js Input Modified Main Demo');
+    });
 
   });
+
 });

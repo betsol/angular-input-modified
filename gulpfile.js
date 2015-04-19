@@ -14,6 +14,7 @@ var ngAnnotate = require('gulp-ng-annotate');
 var angularProtractor = require('gulp-angular-protractor');
 var runSequence = require('run-sequence');
 var concat = require('gulp-concat');
+var karma = require('karma').server;
 
 //=========//
 // GLOBALS //
@@ -97,8 +98,26 @@ gulp.task('demo-deploy', function () {
 //=======//
 
 gulp.task('test', function (callback) {
-  // Starting web-server, then running end-to-end tests on it.
-  runSequence('webserver.start', 'test-e2e', 'webserver.stop', callback);
+  runSequence(
+    'test-unit',
+    // Starting web-server, then running end-to-end tests on it.
+    'webserver.start',
+    'test-e2e',
+    'webserver.stop',
+    callback
+  );
+});
+
+
+//-------------//
+// TESTS: UNIT //
+//-------------//
+
+gulp.task('test-unit', function (callback) {
+  karma.start({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, callback);
 });
 
 

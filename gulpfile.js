@@ -13,6 +13,7 @@ var serverFactory = require('spa-server');
 var ngAnnotate = require('gulp-ng-annotate');
 var angularProtractor = require('gulp-angular-protractor');
 var runSequence = require('run-sequence');
+var concat = require('gulp-concat');
 
 //=========//
 // GLOBALS //
@@ -35,8 +36,15 @@ gulp.task('clean', function (callback) {
 //=======//
 
 gulp.task('build', ['clean'], function () {
-  gulp.src('src/angular-input-modified.js')
-    .pipe(rename('angular-input-modified.js'))
+  gulp
+    .src([
+      // This file contains module registration and therefore should go first.
+      './src/directive/bsModifiable.js',
+      './src/inputModifiedConfig.js',
+      './src/directive/form.js',
+      './src/directive/ngModel.js'
+    ])
+    .pipe(concat('angular-input-modified.js'))
     .pipe(gulp.dest('dist'))
     .pipe(ngAnnotate({
       'single_quotes': true

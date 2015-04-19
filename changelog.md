@@ -1,5 +1,13 @@
 # angular-input-modified changelog
 
+## Version 2.0.3
+(19 April 2015)
+
+### Changes
+
+- Module split into several smaller files for ease of development
+
+
 ## Version 2.0.2
 (23 January 2015)
 
@@ -9,6 +17,7 @@
 - Added `webserver` task to the `gulpfile` to [run demos locally][readme-faq-local-demos]
 - Added [form initialization][readme-form-init] section to the [README][readme]
 - Added [delayed initialization demo][demo-delayed-init]
+
 
 ## Version 2.0.1
 (04 January 2015)
@@ -20,6 +29,7 @@
   `angular.equals()` method is now used to deeply compare objects
 
 - Added [demo][demo-select-multiple] for select field with `multiple` option
+
 
 ## Version 2.0.0
 (04 January 2015)
@@ -53,6 +63,7 @@ section of the [README][readme].
 - Added [`ngRepeat` example][demo-ng-repeat] to the repository
 - Updated [README][readme]
 
+
 ## Version 1.2.0
 (12 November 2014)
 
@@ -73,6 +84,7 @@ section of the [README][readme].
 - Added *Gulp* task to deploy demos to *GitHub Pages*
 - Updated [README][readme]
 
+
 ## Version 1.1.6
 (10 November 2014)
 
@@ -88,6 +100,7 @@ section of the [README][readme].
 - Done some minor refactoring
 - Updated Demo Plunk
 
+
 ## Version 1.1.5
 (29 October 2014)
 
@@ -96,6 +109,7 @@ section of the [README][readme].
 - AngularJS 1.3 is now tested and supported
 - Updated Demo plunk
 
+
 ## Version 1.1.4
 (25 October 2014)
 
@@ -103,6 +117,7 @@ section of the [README][readme].
 
 - Removed unused `gulp-clean` dependency
 - Fixed an issue where form modification state will not be properly updated after a call to form's `$setPristine()` method
+
 
 ## Version 1.1.3
 (13 October 2014)
@@ -117,6 +132,7 @@ section of the [README][readme].
 - Introduced distribution files (normal and minified versions) and a proper build process using **Gulp**
 - Improved [README][readme]
 
+
 ## Version 1.1.2
 (13 October 2014)
 
@@ -125,12 +141,14 @@ section of the [README][readme].
 - Updated README (no code changes)
 - Added new Demo via **Plunker**
 
+
 ## Version 1.1.1
 (08 October 2014)
 
 ### Changes
 
 - Updated versioning (no code changes)
+
 
 ## Version 1.1.0
 (30 May 2014)
@@ -143,6 +161,7 @@ section of the [README][readme].
 - Improved modification tracking
 - Added property `ngForm.modifiedModels` (list of names for modified models)
 - Demo updated
+
 
 ## Version 1.0.0
 (18 May 2014)

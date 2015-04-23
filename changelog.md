@@ -1,5 +1,13 @@
 # angular-input-modified changelog
 
+## Version 2.0.4
+(24 April 2015)
+
+### Changes
+
+- Fixed Angular annotations (all files in `dist` directory is now properly annotated)
+
+
 ## Version 2.0.3
 (19 April 2015)
 

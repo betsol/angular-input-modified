@@ -45,10 +45,10 @@ gulp.task('build', ['clean'], function () {
       './src/directive/ngModel.js'
     ])
     .pipe(concat('angular-input-modified.js'))
-    .pipe(gulp.dest('dist'))
     .pipe(ngAnnotate({
       'single_quotes': true
     }))
+    .pipe(gulp.dest('dist'))
     .pipe(uglify())
     .pipe(rename('angular-input-modified.min.js'))
     .pipe(gulp.dest('dist'))

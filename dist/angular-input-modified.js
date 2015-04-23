@@ -80,12 +80,12 @@
 
   // Extending Angular.js module.
   angular.module('ngInputModified')
-    .directive('form', function ($animate, inputModifiedConfig) {
+    .directive('form', ['$animate', 'inputModifiedConfig', function ($animate, inputModifiedConfig) {
       return formDirectiveFactory($animate, inputModifiedConfig, false);
-    })
-    .directive('ngForm', function ($animate, inputModifiedConfig) {
+    }])
+    .directive('ngForm', ['$animate', 'inputModifiedConfig', function ($animate, inputModifiedConfig) {
       return formDirectiveFactory($animate, inputModifiedConfig, true);
-    })
+    }])
   ;
 
   function formDirectiveFactory ($animate, inputModifiedConfig, isNgForm) {
@@ -389,6 +389,7 @@
       }
     };
   }
+  ngModelModifiedFactory.$inject = ['$animate', 'inputModifiedConfig'];
 
   /**
    * Returns true if specified values are equal, false otherwise.

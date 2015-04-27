@@ -2,13 +2,13 @@
 <html ng-app="DemoApp">
 
 <head>
-    <link rel="stylesheet" href="//rawgit.com/twbs/bootstrap/v3.3.2/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="//rawgit.com/twbs/bootstrap/v3.3.4/dist/css/bootstrap.css">
     <link rel="stylesheet" href="../style.css">
 </head>
 
-<body ng-controller="DefaultController">
+<body class="fixed-width" ng-controller="DefaultController">
 
-    <h1>AngularJS InputModified Delayed Initialization Demo</h1>
+    <h1>Angular.js Input Modified Delayed Initialization Demo</h1>
 
     <p><a href="../">&leftarrow; See other demos</a></p>
     <hr>
@@ -38,6 +38,22 @@
             </p>
             <p class="master">Master: "{{ myForm.fullName.masterValue }}"</p>
             <p class="modified">Modified: {{ myForm.fullName.modified ? 'Yes' : 'No' }}</p>
+        </div>
+
+        <div class="form-group">
+            <label for="email" class="control-label">E-Mail:</label>
+            <div class="control">
+                <input
+                    id="email"
+                    name="email"
+                    class="form-control"
+                    type="email"
+                    ng-model="user.email"
+                    required
+                >
+            </div>
+            <p class="master">Master: "{{ myForm.email.masterValue }}"</p>
+            <p class="modified">Modified: {{ myForm.email.modified ? 'Yes' : 'No' }}</p>
         </div>
 
         <!-- Buttons -->

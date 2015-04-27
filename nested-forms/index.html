@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html ng-app="DemoApp">
+
+<head>
+    <link rel="stylesheet" href="//rawgit.com/twbs/bootstrap/v3.3.4/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body ng-controller="DefaultController">
+
+    <h1>Angular.js Input Modified — Nested Forms Demo</h1>
+    <p><a href="../">&leftarrow; See other demos</a></p>
+    <hr>
+
+    <div class="container-fluid">
+
+        <form name="parentForm" novalidate>
+
+            <div class="row">
+
+                <h2>Level 1</h2>
+
+                <div class="col-md-6">
+
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label for="fullName" class="control-label">Full Name:</label>
+                        <div class="control">
+                            <input
+                                id="fullname"
+                                name="fullName"
+                                class="form-control"
+                                type="text"
+                                ng-model="user.fullName"
+                                required
+                            >
+                        </div>
+                        <p class="reset">
+                            <button ng-click="parentForm.fullName.$setPristine()">Save This Field</button>
+                            <button ng-click="parentForm.fullName.reset()">Reset This Field</button>
+                        </p>
+                        <p class="master">Master: "{{ parentForm.fullName.masterValue }}"</p>
+                        <p class="modified">Modified: {{ parentForm.fullName.modified ? 'Yes' : 'No' }}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group footer">
+                        <p>
+                            Modified:
+                            <span
+                                class="label"
+                                ng-class="{
+                                    'label-success': parentForm.modified,
+                                    'label-default': !parentForm.modified
+                                }
+                            ">
+                                {{ parentForm.modified ? 'Yes' : 'No' }}
+                            </span>
+                        </p>
+                        <div class="control buttons">
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                ng-click="parentForm.$setPristine()"
+                                ng-disabled="!parentForm.modified"
+                            >
+                                Save Form
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-default"
+                                ng-disabled="!parentForm.modified"
+                                ng-click="parentForm.reset()"
+                            >Reset Form</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <ng-form name="childForm">
+
+                <div class="row">
+
+                    <h2>Level 2</h2>
+
+                    <div class="col-md-6">
+                        <!-- About -->
+                        <div class="form-group">
+                            <label for="about" class="control-label">About:</label>
+                            <div class="control">
+                                <input id="about" name="about" class="form-control" type="text" ng-model="user.about" />
+                            </div>
+                            <p class="reset">
+                                <button ng-click="childForm.about.$setPristine()">Save This Field</button>
+                                <button ng-click="childForm.about.reset()">Reset This Field</button>
+                            </p>
+                            <p class="master">Master: "{{ childForm.about.masterValue }}"</p>
+                            <p class="modified">Modified: {{ childForm.about.modified ? 'Yes' : 'No' }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group footer">
+                            <p>
+                                Modified:
+                                <span
+                                    class="label"
+                                    ng-class="{
+                                        'label-success': childForm.modified,
+                                        'label-default': !childForm.modified
+                                    }
+                                ">
+                                    {{ childForm.modified ? 'Yes' : 'No' }}
+                                </span>
+                            </p>
+                            <div class="control buttons">
+                                <button
+                                    type="submit"
+                                    class="btn btn-primary"
+                                    ng-click="childForm.$setPristine()"
+                                    ng-disabled="!childForm.modified"
+                                >
+                                    Save Form
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-default"
+                                    ng-disabled="!childForm.modified"
+                                    ng-click="childForm.reset()"
+                                >Reset Form</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <ng-form name="childsChildForm">
+
+                    <div class="row">
+
+                        <h2>Level 3</h2>
+
+                        <div class="col-md-6">
+
+                            <!-- Gender -->
+                            <div class="form-group">
+                                <label class="control-label">Gender:</label>
+                                <div class="control">
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" name="gender" ng-model="user.gender" value="male">
+                                            Male
+                                        </label>
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" name="gender" ng-model="user.gender" value="female">
+                                            Female
+                                        </label>
+                                    </div>
+                                    <div class="radio-inline">
+                                        <label>
+                                            <input type="radio" name="gender" ng-model="user.gender" value="unknown">
+                                            It's hard to say
+                                        </label>
+                                    </div>
+                                </div>
+                                <p class="reset">
+                                    <button ng-click="childsChildForm.gender.$setPristine()">Save This Field</button>
+                                    <button ng-click="childsChildForm.gender.reset()">Reset This Field</button>
+                                </p>
+                                <p class="master">Master: "{{ childsChildForm.gender.masterValue }}"</p>
+                                <p class="master">Value: "{{ user.gender }}"</p>
+                                <p class="modified">Modified: {{ childsChildForm.gender.modified ? 'Yes' : 'No' }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group footer">
+                                <p>
+                                    Modified:
+                                    <span
+                                        class="label"
+                                        ng-class="{
+                                            'label-success': childsChildForm.modified,
+                                            'label-default': !childsChildForm.modified
+                                        }
+                                    ">
+                                        {{ childsChildForm.modified ? 'Yes' : 'No' }}
+                                    </span>
+                                </p>
+                                <div class="control buttons">
+                                    <button
+                                        type="submit"
+                                        class="btn btn-primary"
+                                        ng-click="childsChildForm.$setPristine()"
+                                        ng-disabled="!childsChildForm.modified"
+                                    >
+                                        Save Form
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-default"
+                                        ng-disabled="!childsChildForm.modified"
+                                        ng-click="childsChildForm.reset()"
+                                    >Reset Form</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </ng-form>
+
+            </ng-form>
+
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../vendor/angular/angular.js"></script>
+    <script src="../vendor/angular-input-modified/angular-input-modified.min.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

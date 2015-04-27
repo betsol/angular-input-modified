@@ -1,362 +1,416 @@
-(function(window, angular) {
+(function (window, angular) {
 
-    'use strict';
+  'use strict';
 
-    var directiveSpecification = ['$animate', 'inputModifiedConfig', ModifiableBehaviorDirective];
+  // Registering Angular.js module.
+  angular.module('ngInputModified', [])
+    .directive('bsModifiable', ModifiableDirective)
+  ;
 
-    // Registering AngularJS module.
-    angular.module('ngInputModified', ['ng'])
-        .directive('bsModifiable', ModifiableDirective)
-        .directive('input',    directiveSpecification)
-        .directive('textarea', directiveSpecification)
-        .directive('select',   directiveSpecification)
-        .provider('inputModifiedConfig', ConfigProvider)
-    ;
+  /**
+   * This directive doesn't add any functionality,
+   * it serves as a mere marker for ngModel directive.
+   *
+   * @constructor
+   *
+   * @returns {object}
+   */
+  function ModifiableDirective () {
+    return {
+      restrict: 'A',
+      controller: function () {
+      }
+    };
+  }
 
-    function ModifiableDirective()
-    {
-        return {
-            'restrict': 'A',
-            controller: function() {}
+})(window, angular);
+
+(function (window, angular) {
+
+  'use strict';
+
+  // Extending Angular.js module.
+  angular.module('ngInputModified')
+    .provider('inputModifiedConfig', configProviderFactory)
+  ;
+
+  /**
+   * Factory that creates configuration service.
+   *
+   * @returns {object}
+   * @constructor
+   */
+  function configProviderFactory () {
+
+    // Default config.
+    var config = {
+      enabledGlobally: true,
+      modifiedClassName: 'ng-modified',
+      notModifiedClassName: 'ng-not-modified'
+    };
+
+    return {
+      enableGlobally: function () {
+        config.enabledGlobally = true;
+        return this;
+      },
+      disableGlobally: function () {
+        config.enabledGlobally = false;
+        return this;
+      },
+      setModifiedClassName: function (modifiedClassName) {
+        config.modifiedClassName = String(modifiedClassName);
+        return this;
+      },
+      setNotModifiedClassName: function (notModifiedClassName) {
+        config.notModifiedClassName = String(notModifiedClassName);
+        return this;
+      },
+      $get: function () {
+        return config;
+      }
+    };
+  }
+
+})(window, angular);
+
+(function (window, angular) {
+
+  'use strict';
+
+  // Extending Angular.js module.
+  angular.module('ngInputModified')
+    .directive('form', ['$animate', 'inputModifiedConfig', function ($animate, inputModifiedConfig) {
+      return formDirectiveFactory($animate, inputModifiedConfig, false);
+    }])
+    .directive('ngForm', ['$animate', 'inputModifiedConfig', function ($animate, inputModifiedConfig) {
+      return formDirectiveFactory($animate, inputModifiedConfig, true);
+    }])
+  ;
+
+  function formDirectiveFactory ($animate, inputModifiedConfig, isNgForm) {
+
+    // Shortcut.
+    var config = inputModifiedConfig;
+
+    return {
+      name: 'form',
+      restrict: isNgForm ? 'EAC' : 'E',
+      require: ['?form'],
+      link: function ($scope, $element, attrs, controllers) {
+
+        // Handling controllers.
+        var formCtrl = controllers[0];
+        var parentFormCtrl = (formCtrl.$$parentForm || $element.parent().controller('form'));
+
+        // Form controller is required for this directive to operate.
+        // Parent form is optional.
+        if (!formCtrl) {
+          return;
+        }
+
+        formCtrl.modified = false;
+        formCtrl.reset = reset;
+
+        // Modified models.
+        formCtrl.modifiedCount = 0;
+        formCtrl.modifiedModels = [];
+        formCtrl.$$notifyModelModifiedStateChanged = function (modelCtrl) {
+          onModifiedStateChanged(modelCtrl, formCtrl.modifiedModels);
         };
-    }
 
-    function ConfigProvider()
-    {
-        var config = {
-            enabledGlobally: true,
-            modifiedClassName: 'ng-modified',
-            notModifiedClassName: 'ng-not-modified'
+        // Modified child forms.
+        formCtrl.modifiedChildFormsCount = 0;
+        formCtrl.modifiedChildForms = [];
+        formCtrl.$$notifyChildFormModifiedStateChanged = function (childFormCtrl) {
+          onModifiedStateChanged(childFormCtrl, formCtrl.modifiedChildForms);
         };
 
-        return {
-            enableGlobally: function() {
-                config.enabledGlobally = true;
-                return this;
-            },
-            disableGlobally: function() {
-                config.enabledGlobally = false;
-                return this;
-            },
-            setModifiedClassName: function(modifiedClassName) {
-                config.modifiedClassName = String(modifiedClassName);
-                return this;
-            },
-            setNotModifiedClassName: function(notModifiedClassName) {
-                config.notModifiedClassName = String(notModifiedClassName);
-                return this;
-            },
-            $get: function() {
-                return config;
-            }
-        };
-    }
-
-    function ModifiableBehaviorDirective($animate, config)
-    {
-        return {
-            restrict: 'E',
-            require: ['?ngModel', '?^form', '?^bsModifiable'],
-            link: function($scope, $element, attrs, controllers) {
-
-                /**
-                 * Path to a model variable inside the scope.
-                 * It can be as simple as: "foo" or as complex as "foo.bar[1].baz.qux".
-                 */
-                var modelPath = attrs.ngModel;
-
-                // Handling controllers.
-                var ngModel = controllers[0];
-                var ngForm = controllers[1];
-                var bsModifiable = controllers[2];
-
-                // ngModel is required for this directive to operate.
-                // ngForm is optional.
-                if (!ngModel) {
-                    return;
-                }
-
-                // This behavior is applied only when form element or one of it's parents has a bsModifiable directive present
-                // or when global switch is set.
-                if (!config.enabledGlobally && !bsModifiable) {
-                    return;
-                }
-
-                /**
-                 * Decorates element with proper CSS classes.
-                 */
-                var toggleCssClasses = function() {
-                    $animate.addClass($element, (ngModel.modified ? config.modifiedClassName : config.notModifiedClassName));
-                    $animate.removeClass($element, (ngModel.modified ? config.notModifiedClassName : config.modifiedClassName));
-                };
-
-                /**
-                 * This handler is called when form element is modified.
-                 *
-                 * @param {boolean} modified
-                 */
-                var onElementModified = function(modified) {
-                    updateModifiedModelState(modified);
-                };
-
-                /**
-                 * Updating form when input is modified.
-                 *
-                 * @param {bool} modified
-                 */
-                var updateModifiedModelState = function(modified) {
-
-                    if (!ngForm) {
-                        // No need to do anything if form controller is missing.
-                        return;
-                    }
-
-                    var listIndex = ngForm.modifiedModels.indexOf(ngModel);
-                    var presentInList = (-1 !== listIndex);
-
-                    if (modified && !presentInList) {
-
-                        // Adding model to the internal list of modified models.
-                        ngForm.modifiedModels.push(ngModel);
-
-                        // Increasing number of modified models.
-                        ngForm.modifiedCount++;
-
-                    } else if (!modified && presentInList) {
-
-                        // Removing model from the internal list of modified models.
-                        ngForm.modifiedModels.splice(listIndex, 1);
-
-                        // Decreasing number of modified models.
-                        ngForm.modifiedCount--;
-                    }
-
-                    // Form is considered modified when it has at least one modified element.
-                    ngForm.modified = (ngForm.modifiedCount > 0);
-                };
-
-                // Flag to indicate that master value was initialized.
-                var masterValueIsSet = false;
-
-                /**
-                 * Sets proper modification state for model controller according to current and master value.
-                 */
-                var onInputValueChanged = function() {
-
-                    // If master value is not set (called only once).
-                    if (!masterValueIsSet) {
-
-                        // Initializing the master value.
-                        ngModel.masterValue = ngModel.$modelValue;
-
-                        // Initially decorating the element.
-                        toggleCssClasses();
-
-                        masterValueIsSet = true;
-
-                    } else {
-
-                        // Comparing current input value with preserved master value
-                        // to determine if it's changed.
-                        var modified = !valuesEqual(ngModel.$modelValue, ngModel.masterValue);
-
-                        // If modified flag is changed.
-                        if (ngModel.modified !== modified) {
-
-                            onElementModified(modified);
-
-                            // Setting new flag.
-                            ngModel.modified = modified;
-
-                            // Re-decorating the element.
-                            toggleCssClasses();
-                        }
-                    }
-                };
-
-                // Saving handle to original $setPristine method.
-                var originalSetPristine = ngModel.$setPristine;
-
-                /**
-                 * This flag will show if input value was modified.
-                 *
-                 * @type {boolean}
-                 */
-                ngModel.modified = false;
-
-                /**
-                 * This property contains current master value for this input field.
-                 *
-                 * @type {*}
-                 */
-                ngModel.masterValue = undefined;
-
-                /**
-                 * Augmentation for original $setPristine method.
-                 */
-                ngModel.$setPristine = function() {
-
-                    // Calling original $setPristine method.
-                    originalSetPristine.apply(this, arguments);
-
-                    // Updating parameters.
-                    ngModel.masterValue = ngModel.$modelValue;
-                    ngModel.modified = false;
-
-                    // Making sure form state is updated.
-                    onElementModified(false);
-
-                    // Re-decorating the element.
-                    toggleCssClasses();
-                };
-
-                /**
-                 * Replaces current input value with a master value.
-                 */
-                ngModel.reset = function() {
-                    try {
-                        eval('$scope.' + modelPath + ' = ngModel.masterValue;');
-                    } catch (exception) {
-                        // Missing specified model. Do nothing.
-                    }
-                };
-
-                // If parent form element is present for this input and
-                // is not yet initialized.
-                if (ngForm && !isFormInitialized(ngForm)) {
-                    initializeForm(ngForm);
-                }
-
-                // Watching for model value changes.
-                $scope.$watch(modelPath, onInputValueChanged);
-            }
-        };
-    }
-
-    /**
-     * Returns true if specified parameter is Angular model controller,
-     * false otherwise.
-     *
-     * @param {*} ngModel
-     *
-     * @returns {boolean}
-     */
-    function isModelController(ngModel) {
-        return (
-               'object' === typeof ngModel
-            && '$modelValue' in ngModel
-        );
-    }
-
-    /**
-     * Returns true if specified parameter is initialized model controller,
-     * false otherwise.
-     *
-     * @param {*} ngModel
-     *
-     * @returns {boolean}
-     */
-    function isModelControllerInitialized(ngModel) {
-        return ('modified' in ngModel);
-    }
-
-    /**
-     * Iterates child model controllers of specified form controller,
-     * call specified iterator with every model controller.
-     *
-     * @param {object} ngForm
-     * @param {function} iterator
-     */
-    function iterateFormElements(ngForm, iterator) {
-        angular.forEach(ngForm, function(element) {
-            if (isModelController(element)) {
-                iterator(element);
-            }
-        });
-    }
-
-    /**
-     * Initializes specified form controller.
-     *
-     * @param {object} ngForm
-     */
-    function initializeForm(ngForm) {
-
-        ngForm.modified = false;
-        ngForm.modifiedCount = 0;
-
-        // List of modified models.
-        ngForm.modifiedModels = [];
 
         /**
          * Resets all form inputs to it's master values.
          */
-        ngForm.reset = function() {
-            iterateFormElements(ngForm, function(ngModel) {
-                if (isModelControllerInitialized(ngModel)) {
-                    ngModel.reset();
-                }
-            });
-        };
-    }
+        function reset () {
 
-    /**
-     * Returns true if specified form controller is initialized, false otherwise.
-     *
-     * @param {object} ngForm
-     *
-     * @returns {boolean}
-     */
-    function isFormInitialized(ngForm) {
-        return ('undefined' !== typeof ngForm.modified);
-    }
+          // Resetting modified models.
+          angular.forEach(formCtrl.modifiedModels, function (modelCtrl) {
+            modelCtrl.reset();
+          });
 
-    /**
-     * Returns true if specified values are equal, false otherwise.
-     * Supports date comparison.
-     *
-     * @param {*} value1
-     * @param {*} value2
-     *
-     * @returns {boolean}
-     */
-    function valuesEqual(value1, value2)
-    {
-        value1 = unifyValue(value1);
-        value2 = unifyValue(value2);
+          // Resetting modified child forms.
+          angular.forEach(formCtrl.modifiedChildForms, function (childFormCtrl) {
+            childFormCtrl.reset();
+          });
+        }
 
-        if ('object' === typeof value1 && 'object' === typeof value2) {
-            if (value1 instanceof Date && value2 instanceof Date) {
-                // Comparing two dates.
-                return (value1.getTime() === value2.getTime());
-            } else {
-                // Comparing two objects using AngularJS equals method.
-                return angular.equals(value1, value2);
+        /**
+         * This universal function is called when child model or child form is modified
+         * by the modified component itself.
+         * It will update the corresponding tracking list, the number of modified components
+         * and the form itself if required.
+         *
+         * @param ctrl  The modified model or modified form controller
+         * @param list  The tracking list of modified controllers (models or forms)
+         */
+        function onModifiedStateChanged (ctrl, list) {
+
+          var listIndex = list.indexOf(ctrl);
+          var presentInList = (-1 !== listIndex);
+
+          var updateRequired = true;
+
+          if (ctrl.modified && !presentInList) {
+
+            // Adding model to the internal list of modified models.
+            list.push(ctrl);
+
+          } else if (!ctrl.modified && presentInList) {
+
+            // Removing model from the internal list of modified models.
+            list.splice(listIndex, 1);
+
+          } else {
+            // Edge case when update is not required.
+            updateRequired = false;
+          }
+
+          if (updateRequired) {
+
+            updateModifiedState();
+
+            // Notifying the parent form if it presents.
+            if (parentFormCtrl && 'function' === typeof parentFormCtrl.$$notifyChildFormModifiedStateChanged) {
+              parentFormCtrl.$$notifyChildFormModifiedStateChanged(formCtrl);
             }
+
+            updateCssClasses();
+
+          }
+
         }
 
-        // In all other cases using weak comparison.
-        return (value1 == value2);
+        /**
+         * Updates form modified state.
+         *
+         * Form is considered modified when it has at least one
+         * modified element or child form.
+         */
+        function updateModifiedState () {
+
+          formCtrl.modifiedCount = formCtrl.modifiedModels.length;
+          formCtrl.modifiedChildFormsCount = formCtrl.modifiedChildForms.length;
+
+          formCtrl.modified =
+            (formCtrl.modifiedCount + formCtrl.modifiedChildFormsCount) > 0
+          ;
+        }
+
+        /**
+         * Decorates element with proper CSS classes.
+         */
+        function updateCssClasses () {
+          $animate.addClass($element, (formCtrl.modified ? config.modifiedClassName : config.notModifiedClassName));
+          $animate.removeClass($element, (formCtrl.modified ? config.notModifiedClassName : config.modifiedClassName));
+        }
+
+      }
+    };
+  }
+
+})(window, angular);
+
+(function (window, angular) {
+
+  'use strict';
+
+  // Extending Angular.js module.
+  angular.module('ngInputModified')
+    .directive('ngModel', ngModelModifiedFactory)
+  ;
+
+  /**
+   * This directive extends ng-model with modifiable behavior.
+   *
+   * @constructor
+   * @param {object} $animate
+   * @param {object} inputModifiedConfig
+   *
+   * @returns {object}
+   */
+  function ngModelModifiedFactory ($animate, inputModifiedConfig) {
+
+    // Shortcut.
+    var config = inputModifiedConfig;
+
+    return {
+      restrict: 'A',
+      require: ['?ngModel', '?^form', '?^bsModifiable'],
+      link: function ($scope, $element, attrs, controllers) {
+
+        /**
+         * Path to a model variable inside the scope.
+         * It can be as simple as: "foo" or as complex as "foo.bar[1].baz.qux".
+         */
+        var modelPath = attrs.ngModel;
+
+        // Handling controllers.
+        var modelCtrl = controllers[0];
+        var formCtrl = controllers[1];
+        var bsModifiable = controllers[2];
+
+        // Model controller is required for this directive to operate.
+        // Parent form controller is optional.
+        if (!modelCtrl) {
+          return;
+        }
+
+        // This behavior is applied only when form element or
+        // one of it's parents has a bsModifiable directive present
+        // or when global switch is set.
+        if (!config.enabledGlobally && !bsModifiable) {
+          return;
+        }
+
+        // Flag to indicate that master value was initialized.
+        var masterValueIsSet = false;
+
+        // Saving handle to original set-pristine method.
+        var originalSetPristine = modelCtrl.$setPristine;
+
+        // Replacing original set-pristine with our own.
+        modelCtrl.$setPristine = setPristine;
+
+        modelCtrl.modified = false;
+
+        modelCtrl.masterValue = undefined;
+
+        modelCtrl.reset = reset;
+
+        // Watching for model value changes.
+        $scope.$watch(modelPath, onInputValueChanged);
+
+
+        /**
+         * Sets proper modification state for model controller according to
+         * current/master value.
+         */
+        function onInputValueChanged () {
+
+          if (!masterValueIsSet) {
+            initializeMasterValue();
+          }
+
+          var modified = !compare(modelCtrl.$modelValue, modelCtrl.masterValue);
+
+          // If modified flag has changed.
+          if (modelCtrl.modified !== modified) {
+
+            // Setting new flag.
+            modelCtrl.modified = modified;
+
+            // Notifying the form.
+            if (formCtrl && 'function' === typeof formCtrl.$$notifyModelModifiedStateChanged) {
+              formCtrl.$$notifyModelModifiedStateChanged(modelCtrl);
+            }
+
+            // Re-decorating the element.
+            updateCssClasses();
+          }
+        }
+
+        /**
+         * Initializes master value if required.
+         */
+        function initializeMasterValue () {
+
+          // Initializing the master value.
+          modelCtrl.masterValue = modelCtrl.$modelValue;
+
+          // Initially decorating the element.
+          updateCssClasses();
+
+          masterValueIsSet = true;
+        }
+
+        /**
+         * Decorates element with proper CSS classes.
+         */
+        function updateCssClasses () {
+          $animate.addClass($element, (modelCtrl.modified ? config.modifiedClassName : config.notModifiedClassName));
+          $animate.removeClass($element, (modelCtrl.modified ? config.notModifiedClassName : config.modifiedClassName));
+        }
+
+        /**
+         * Overloading original set-pristine method.
+         */
+        function setPristine () {
+
+          // Calling overloaded method.
+          originalSetPristine.apply(this, arguments);
+
+          // Updating parameters.
+          modelCtrl.masterValue = modelCtrl.$modelValue;
+          modelCtrl.modified = false;
+
+          // Notifying the form.
+          formCtrl.$$notifyModelModifiedStateChanged(modelCtrl);
+
+          // Re-decorating the element.
+          updateCssClasses();
+        }
+
+        /**
+         * Replaces current input value with a master value.
+         */
+        function reset () {
+          try {
+            eval('$scope.' + modelPath + ' = modelCtrl.masterValue;');
+          } catch (exception) {
+            // Missing specified model. Do nothing.
+          }
+        }
+
+      }
+    };
+  }
+  ngModelModifiedFactory.$inject = ['$animate', 'inputModifiedConfig'];
+
+  /**
+   * Returns true if specified values are equal, false otherwise.
+   * Supports dates comparison.
+   *
+   * @param {*} value1
+   * @param {*} value2
+   *
+   * @returns {boolean}
+   */
+  function compare (value1, value2) {
+    value1 = normalizeValue(value1);
+    value2 = normalizeValue(value2);
+
+    if ('object' === typeof value1 && 'object' === typeof value2) {
+      if (value1 instanceof Date && value2 instanceof Date) {
+        // Comparing two dates.
+        return (value1.getTime() === value2.getTime());
+      } else {
+        // Comparing two objects.
+        return angular.equals(value1, value2);
+      }
     }
 
-    /**
-     * Casting all null-like values to actual null for guaranteed comparison.
-     *
-     * @param {*} value
-     *
-     * @returns {*}
-     */
-    function unifyValue(value)
-    {
-        if (undefined === value) {
-            return null;
-        }
+    // In all other cases using weak comparison.
+    return (value1 == value2);
+  }
 
-        if ('' === value) {
-            return null;
-        }
-
-        return value;
-    }
+  /**
+   * Casting all null-like values to actual null for guaranteed comparison.
+   *
+   * @param {*} value
+   *
+   * @returns {*}
+   */
+  function normalizeValue (value) {
+    return (undefined === value || '' === value ? null : value);
+  }
 
 })(window, angular);

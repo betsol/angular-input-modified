@@ -1,6 +1,9 @@
 body {
     padding: 40px;
     margin: 0 auto;
+}
+
+.fixed-width {
     max-width: 800px;
 }
 

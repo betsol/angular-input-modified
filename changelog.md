@@ -1,9 +1,14 @@
 # angular-input-modified changelog
 
-## Version 2.0.5
+## Version 2.1.0
 (27 April 2015)
 
-### Changes
+- Nested forms are now fully-supported
+- Improved internal design and performance of the library
+
+
+## Version 2.0.5
+(27 April 2015)
 
 - Fixed an issue where elements were used without a parent form
 
@@ -11,23 +16,17 @@
 ## Version 2.0.4
 (24 April 2015)
 
-### Changes
-
 - Fixed Angular annotations (all files in `dist` directory is now properly annotated)
 
 
 ## Version 2.0.3
 (19 April 2015)
 
-### Changes
-
 - Module split into several smaller files for ease of development
 
 
 ## Version 2.0.2
 (23 January 2015)
-
-### Changes
 
 - Directive is now attached by `ngModel` attribute
 - Added `webserver` task to the `gulpfile` to [run demos locally][readme-faq-local-demos]
@@ -38,8 +37,6 @@
 ## Version 2.0.1
 (04 January 2015)
 
-### Changes
-
 - [\#7][issue-7]: "Array and object models are not compared using deep comparison"
   (thanks to [Vaibhav][user-vaibhavguptaIITD]).
   `angular.equals()` method is now used to deeply compare objects
@@ -49,6 +46,7 @@
 
 ## Version 2.0.0
 (04 January 2015)
+
 
 ### Backward-incompatible changes
 
@@ -63,6 +61,7 @@ If you still need this functionality - please [create an issue][new-issue] to di
 Also, form initialization strategy has changed - please see the
 [Form initialization][readme-form-init]
 section of the [README][readme].
+
 
 ### Changes
 
@@ -83,8 +82,6 @@ section of the [README][readme].
 ## Version 1.2.0
 (12 November 2014)
 
-### Changes
-
 - [\#4][issue-4]: "Doesn't work with Ui-Bootstrap's Timepicker"
   (thanks to [@prudd][user-prudd])
 
@@ -104,8 +101,6 @@ section of the [README][readme].
 ## Version 1.1.6
 (10 November 2014)
 
-### Changes
-
 - [\#2][issue-2]: "Fixed *ngModel* existence check"
   (thanks to [@atte-backman][user-atte-backman])
 
@@ -120,8 +115,6 @@ section of the [README][readme].
 ## Version 1.1.5
 (29 October 2014)
 
-### Changes
-
 - AngularJS 1.3 is now tested and supported
 - Updated Demo plunk
 
@@ -129,16 +122,12 @@ section of the [README][readme].
 ## Version 1.1.4
 (25 October 2014)
 
-### Changes
-
 - Removed unused `gulp-clean` dependency
 - Fixed an issue where form modification state will not be properly updated after a call to form's `$setPristine()` method
 
 
 ## Version 1.1.3
 (13 October 2014)
-
-### Changes
 
 - Done some serious refactoring.
   Low-level details moved to a separate functions, so the main logic became more abstract and readable.
@@ -152,8 +141,6 @@ section of the [README][readme].
 ## Version 1.1.2
 (13 October 2014)
 
-### Changes
-
 - Updated README (no code changes)
 - Added new Demo via **Plunker**
 
@@ -161,15 +148,11 @@ section of the [README][readme].
 ## Version 1.1.1
 (08 October 2014)
 
-### Changes
-
 - Updated versioning (no code changes)
 
 
 ## Version 1.1.0
 (30 May 2014)
-
-### Changes
 
 - Improved initialization code
 - Updated comparison function to allow more weak comparison like `"1"` (string) and `1` (integer)
@@ -181,8 +164,6 @@ section of the [README][readme].
 
 ## Version 1.0.0
 (18 May 2014)
-
-### Changes
 
 - Public API stabilized
 

@@ -72,6 +72,7 @@ var application = angular.module('application', [
 
 Please see our [demos and examples](#demos-and-examples) as well as [API documentation](#api).
 
+
 ### Form initialization
 
 Starting from version `2.0.0` form must be synchronously initialized during
@@ -83,6 +84,16 @@ this data using your router.
 However, if you really need to re-initialize form after controller execution —
 please use the approach shown in this demo:
 [Delayed Initialization][demo-delayed-init].
+
+
+### Excluding some fields
+
+In order to disable modifiable behavior on some form fields, you will need to call:
+`inputModifiedConfigProvider.disableGlobally()` to disable the modifiable behavior
+by default for all form fields. Then you will need to mark all required form fields
+with `ng-modifiable` attribute to make them modifiable.
+
+This functionality will be improved in the next minor release.
 
 
 ## API
@@ -106,66 +117,53 @@ angular.module('Application', ['ngInputModified'])
 ```
 
 
-#### enableGlobally
+#### Methods
 
-`{ConfigProvider} enableGlobally()`
-
-Enables modifiable behavior globally for all form elements (this is default).
-
-
-#### disableGlobally
-
-`{ConfigProvider} disableGlobally()`
-
-Disables modifiable behavior globally for all form elements.
-You will have to add this behavior manually by using bsModifiable directive
-
-
-#### setModifiedClassName
-
-`{ConfigProvider} setModifiedClassName({string} className)`
-
-Provides CSS class name that will be added to modified elements.
-`ng-modified` is the default one.
-
-
-#### setNotModifiedClassName
-
-`{ConfigProvider} setNotModifiedClassName({string} className)`
-
-Provides CSS class name that will be added to unmodified elements.
-`ng-not-modified` is the default one.
+| Method                                       | Description
+|----------------------------------------------|-------------------------------------------------------------
+| enableGlobally()                             | Enables modifiable behavior globally for all form elements (this is default)
+| disableGlobally()                            | Disables modifiable behavior globally for all form elements
+| setModifiedClassName({string} className)     | Provides CSS class name that will be added to modified elements. `ng-modified` is the default one
+| setNotModifiedClassName({string} className)  | Provides CSS class name that will be added to unmodified elements. `ng-not-modified` is the default one
 
 
 ### ngModel
 
-Model controller properties and methods:
+#### Properties
 
-    PROPERTIES:
-    ==========
+| Property     | Type       | Description
+|--------------|------------|---------------------------------------------------------
+| masterValue  | `mixed`    | Initial value of the form field
+| modified     | `boolean`  | Flag that indicates whether the form field was modified
+ 
 
-    *        masterValue  - initial value of the input field.
-    boolean  modified     - flag that indicates whether the input value was modified.
+#### Methods
 
-    METHODS:
-    =======
-
-    void  reset()  - resets input value to it's initial state.
+| Method          | Description
+|-----------------|------------------------------------------
+| reset()         | Resets input value to it's initial state
+| $setPristine()  | Makes form field pristine by preserving current value as a new master value
 
 
 ### ngForm
 
-Form controller properties and methods:
+#### Properties
 
-    PROPERTIES:
-    ==========
+| Property                 | Type       | Description
+|--------------------------|------------|--------------------------------------------------
+| modified                 | `boolean`  | Flag that indicates whether the form is modified
+| modifiedCount            | `integer`  | The number of modified form fields
+| modifiedModels           | `array`    | The list of modified model controllers
+| modifiedChildFormsCount  | `integer`  | The number of modified child forms
+| modifiedChildForms       | `array`    | The list of modified child form controllers
 
-    boolean  modified  - flag that indicates whether the form is modified (i.e. at least one element is modified).
 
-    METHODS:
-    =======
+#### Methods
 
-    void  reset()  - method to reset all input values of the form to their initial states.
+| Method          | Description
+|-----------------|------------------------------------------------------------------------
+| reset()         | Resets all input fields of the form to their initial states
+| $setPristine()  | Makes form pristine by making all child forms and form fields pristine
 
 
 ## Changelog

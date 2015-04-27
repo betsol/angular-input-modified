@@ -96,12 +96,12 @@
     return {
       name: 'form',
       restrict: isNgForm ? 'EAC' : 'E',
-      require: ['?form', '?^form'],
+      require: ['?form'],
       link: function ($scope, $element, attrs, controllers) {
 
         // Handling controllers.
         var formCtrl = controllers[0];
-        //var parentFormCtrl = controllers[1];
+        var parentFormCtrl = (formCtrl.$$parentForm || $element.parent().controller('form'));
 
         // Form controller is required for this directive to operate.
         // Parent form is optional.
@@ -110,63 +110,99 @@
         }
 
         formCtrl.modified = false;
+        formCtrl.reset = reset;
 
         // Modified models.
         formCtrl.modifiedCount = 0;
         formCtrl.modifiedModels = [];
+        formCtrl.$$notifyModelModifiedStateChanged = function (modelCtrl) {
+          onModifiedStateChanged(modelCtrl, formCtrl.modifiedModels);
+        };
 
         // Modified child forms.
         formCtrl.modifiedChildFormsCount = 0;
         formCtrl.modifiedChildForms = [];
-
-        formCtrl.reset = reset;
-
-        formCtrl.$$notifyModelModifiedStateChanged = onModelModifiedStateChanged;
+        formCtrl.$$notifyChildFormModifiedStateChanged = function (childFormCtrl) {
+          onModifiedStateChanged(childFormCtrl, formCtrl.modifiedChildForms);
+        };
 
 
         /**
          * Resets all form inputs to it's master values.
          */
         function reset () {
-          iterateFormElements(formCtrl, function (modelCtrl) {
-            if (isModifiableModel(modelCtrl)) {
-              modelCtrl.reset();
-            }
+
+          // Resetting modified models.
+          angular.forEach(formCtrl.modifiedModels, function (modelCtrl) {
+            modelCtrl.reset();
+          });
+
+          // Resetting modified child forms.
+          angular.forEach(formCtrl.modifiedChildForms, function (childFormCtrl) {
+            childFormCtrl.reset();
           });
         }
 
         /**
-         * Updating form when child model's modified state has changed.
-         * Child models will call this method internally.
+         * This universal function is called when child model or child form is modified
+         * by the modified component itself.
+         * It will update the corresponding tracking list, the number of modified components
+         * and the form itself if required.
          *
-         * @param {object} modelCtrl
+         * @param ctrl  The modified model or modified form controller
+         * @param list  The tracking list of modified controllers (models or forms)
          */
-        function onModelModifiedStateChanged (modelCtrl) {
+        function onModifiedStateChanged (ctrl, list) {
 
-          var listIndex = formCtrl.modifiedModels.indexOf(modelCtrl);
+          var listIndex = list.indexOf(ctrl);
           var presentInList = (-1 !== listIndex);
 
-          if (modelCtrl.modified && !presentInList) {
+          var updateRequired = true;
+
+          if (ctrl.modified && !presentInList) {
 
             // Adding model to the internal list of modified models.
-            formCtrl.modifiedModels.push(modelCtrl);
+            list.push(ctrl);
 
-            // Increasing number of modified models.
-            formCtrl.modifiedCount++;
-
-          } else if (!modelCtrl.modified && presentInList) {
+          } else if (!ctrl.modified && presentInList) {
 
             // Removing model from the internal list of modified models.
-            formCtrl.modifiedModels.splice(listIndex, 1);
+            list.splice(listIndex, 1);
 
-            // Decreasing number of modified models.
-            formCtrl.modifiedCount--;
+          } else {
+            // Edge case when update is not required.
+            updateRequired = false;
           }
 
-          // Form is considered modified when it has at least one modified element.
-          formCtrl.modified = (formCtrl.modifiedCount > 0);
+          if (updateRequired) {
 
-          updateCssClasses();
+            updateModifiedState();
+
+            // Notifying the parent form if it presents.
+            if (parentFormCtrl && 'function' === typeof parentFormCtrl.$$notifyChildFormModifiedStateChanged) {
+              parentFormCtrl.$$notifyChildFormModifiedStateChanged(formCtrl);
+            }
+
+            updateCssClasses();
+
+          }
+
+        }
+
+        /**
+         * Updates form modified state.
+         *
+         * Form is considered modified when it has at least one
+         * modified element or child form.
+         */
+        function updateModifiedState () {
+
+          formCtrl.modifiedCount = formCtrl.modifiedModels.length;
+          formCtrl.modifiedChildFormsCount = formCtrl.modifiedChildForms.length;
+
+          formCtrl.modified =
+            (formCtrl.modifiedCount + formCtrl.modifiedChildFormsCount) > 0
+          ;
         }
 
         /**
@@ -179,48 +215,6 @@
 
       }
     };
-  }
-
-  /**
-   * Returns true if specified parameter is Angular model controller,
-   * false otherwise.
-   *
-   * @param {*} ngModel
-   *
-   * @returns {boolean}
-   */
-  function isModelController (ngModel) {
-    return (
-         'object' === typeof ngModel
-      && '$modelValue' in ngModel
-    );
-  }
-
-  /**
-   * Returns true if specified parameter is initialized model controller,
-   * false otherwise.
-   *
-   * @param {*} ngModel
-   *
-   * @returns {boolean}
-   */
-  function isModifiableModel (ngModel) {
-    return ('modified' in ngModel);
-  }
-
-  /**
-   * Iterates child model controllers of specified form controller,
-   * calls specified iterator for every model controller.
-   *
-   * @param {object} ngForm
-   * @param {function} iterator
-   */
-  function iterateFormElements (ngForm, iterator) {
-    angular.forEach(ngForm, function (element) {
-      if (isModelController(element)) {
-        iterator(element);
-      }
-    });
   }
 
 })(window, angular);

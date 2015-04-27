@@ -9,7 +9,7 @@
 
   /**
    * This directive doesn't add any functionality,
-   * it serves as a mere marker for main directive.
+   * it serves as a mere marker for ngModel directive.
    *
    * @constructor
    *

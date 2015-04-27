@@ -75,7 +75,9 @@
          */
         function onInputValueChanged () {
 
-          initializeMasterValue();
+          if (!masterValueIsSet) {
+            initializeMasterValue();
+          }
 
           var modified = !compare(modelCtrl.$modelValue, modelCtrl.masterValue);
 
@@ -86,7 +88,9 @@
             modelCtrl.modified = modified;
 
             // Notifying the form.
-            formCtrl.$$notifyModelModifiedStateChanged(modelCtrl);
+            if (formCtrl && 'function' === typeof formCtrl.$$notifyModelModifiedStateChanged) {
+              formCtrl.$$notifyModelModifiedStateChanged(modelCtrl);
+            }
 
             // Re-decorating the element.
             updateCssClasses();
@@ -97,10 +101,6 @@
          * Initializes master value if required.
          */
         function initializeMasterValue () {
-
-          if (masterValueIsSet) {
-            return;
-          }
 
           // Initializing the master value.
           modelCtrl.masterValue = modelCtrl.$modelValue;
@@ -127,18 +127,8 @@
           // Calling overloaded method.
           originalSetPristine.apply(this, arguments);
 
-          setMasterValue(modelCtrl.$modelValue);
-        }
-
-        /**
-         * Sets new master value.
-         *
-         * @param {*} newMasterValue
-         */
-        function setMasterValue (newMasterValue) {
-
           // Updating parameters.
-          modelCtrl.masterValue = newMasterValue;
+          modelCtrl.masterValue = modelCtrl.$modelValue;
           modelCtrl.modified = false;
 
           // Notifying the form.

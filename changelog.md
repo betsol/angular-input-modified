@@ -1,5 +1,13 @@
 # angular-input-modified changelog
 
+## Version 2.0.5
+(27 April 2015)
+
+### Changes
+
+- Fixed an issue where elements were used without a parent form
+
+
 ## Version 2.0.4
 (24 April 2015)
 

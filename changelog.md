@@ -1,5 +1,11 @@
 # angular-input-modified changelog
 
+## Version 2.2.0
+(02 May 2015)
+
+- Addition of the modifiable behavior now can be fully controlled via `bsModifiable` directive
+
+
 ## Version 2.1.0
 (27 April 2015)
 

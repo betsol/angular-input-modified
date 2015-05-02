@@ -18,7 +18,10 @@
   function ModifiableDirective () {
     return {
       restrict: 'A',
-      controller: function () {
+      controller: function ($scope, $element, $attrs) {
+        this.isEnabled = function () {
+          return ('true' == $attrs.bsModifiable);
+        };
       }
     };
   }

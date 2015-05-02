@@ -11,9 +11,10 @@ This extra functionality allows you to provide better usability with forms.
 For example, you can add decorations to the form elements that are actually changed.
 That way, user will see what values has changed since last edit.
 
-Also, you can reset form to it's initial state (cancel all user edits) with just a single call to `form.reset()` or
-lock new values (preserve new state) just by calling overloaded `form.$setPristine()` method.
-If you want, you can do this for individual input elements in similar fashion.
+Also, you can reset an entire form or just a single field to it's initial state
+(cancel all user edits) with just a single call to the `reset()` method or
+lock new values (preserve new state) just by calling overloaded `$setPristine()`
+method.
 
 
 ## Demos and examples
@@ -88,12 +89,30 @@ please use the approach shown in this demo:
 
 ### Excluding some fields
 
-In order to disable modifiable behavior on some form fields, you will need to call:
-`inputModifiedConfigProvider.disableGlobally()` to disable the modifiable behavior
-by default for all form fields. Then you will need to mark all required form fields
-with `ng-modifiable` attribute to make them modifiable.
+Input modified module provides you with the ability to control which input elements
+will exhibit modifiable behavior and which will not.
 
-This functionality will be improved in the next minor release.
+By default all form fields in your application will support modifiable behavior,
+after input modified module is added to the application. You can control this
+via `enableGlobally()` and `disableGlobally()` methods of the `inputModifiedConfigProvider`.
+This gives you the overall top-level switch to control modifiable behavior.
+
+Also, we provide you with special directive called `bsModifiable` that allows you
+to control which fields will support the behavior. It gives you are more granular
+control over your forms. This directive works in a recursive manner and can be applied
+to any HTML element. For example, you can apply it to an entire form:
+`<form name="myForm" bs-modifiable="true">` in order to enable modifiable behavior
+on all it's fields.
+
+`bs-modifiable` attribute can be set to `true` or to `false`, depending on what
+you are trying to achieve.
+
+You can exercise the **exclusion** policy by excluding only specific fields or you
+can exercise the **inclusion** policy by disabling the behavior globally and then
+adding modifiable behavior only to the required forms or form fields.
+It's all up to you!
+
+Please see [the special demo][demo-excluded-elements].
 
 
 ## API
@@ -117,8 +136,6 @@ angular.module('Application', ['ngInputModified'])
 ```
 
 
-#### Methods
-
 | Method                                       | Description
 |----------------------------------------------|-------------------------------------------------------------
 | enableGlobally()                             | Enables modifiable behavior globally for all form elements (this is default)
@@ -129,15 +146,12 @@ angular.module('Application', ['ngInputModified'])
 
 ### ngModel
 
-#### Properties
 
 | Property     | Type       | Description
 |--------------|------------|---------------------------------------------------------
 | masterValue  | `mixed`    | Initial value of the form field
 | modified     | `boolean`  | Flag that indicates whether the form field was modified
- 
 
-#### Methods
 
 | Method          | Description
 |-----------------|------------------------------------------
@@ -147,7 +161,6 @@ angular.module('Application', ['ngInputModified'])
 
 ### ngForm
 
-#### Properties
 
 | Property                 | Type       | Description
 |--------------------------|------------|--------------------------------------------------
@@ -158,12 +171,18 @@ angular.module('Application', ['ngInputModified'])
 | modifiedChildForms       | `array`    | The list of modified child form controllers
 
 
-#### Methods
-
 | Method          | Description
 |-----------------|------------------------------------------------------------------------
 | reset()         | Resets all input fields of the form to their initial states
 | $setPristine()  | Makes form pristine by making all child forms and form fields pristine
+
+
+### bsModifiable
+
+
+| Attribute      | Type      | Description
+|----------------|-----------|-----------------------------------------------------------------------------------------
+| bs-modifiable  | `string`  | Either "true" or "false", see ("excluding some fields" chapter)(#excluding-some-fields)
 
 
 ## Changelog
@@ -254,5 +273,6 @@ THE SOFTWARE.
   [repo-gh]:   https://github.com/betsol/angular-input-modified
 
   [demo-delayed-init]: http://betsol.github.io/angular-input-modified/delayed-init/
+  [demo-excluded-elements]: http://betsol.github.io/angular-input-modified/excluded-elements/
 
   [faq-local-demos]: #how-do-i-access-demos-locally

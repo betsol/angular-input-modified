@@ -46,7 +46,11 @@
         // This behavior is applied only when form element or
         // one of it's parents has a bsModifiable directive present
         // or when global switch is set.
-        if (!config.enabledGlobally && !bsModifiable) {
+        var enabled = (bsModifiable ? bsModifiable.isEnabled() : undefined);
+        if (
+             ( config.enabledGlobally && false == enabled)
+          || (!config.enabledGlobally && true !== enabled)
+        ) {
           return;
         }
 

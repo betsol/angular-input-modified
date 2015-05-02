@@ -179,10 +179,13 @@ angular.module('Application', ['ngInputModified'])
 
 ### bsModifiable
 
+This directive can be applied to any element on the page. All descendant form
+fields (recursively) will respect it.
+
 
 | Attribute      | Type      | Description
 |----------------|-----------|-----------------------------------------------------------------------------------------
-| bs-modifiable  | `string`  | Either "true" or "false", see ("excluding some fields" chapter)(#excluding-some-fields)
+| bs-modifiable  | `string`  | Either "true" or "false", see ["excluding some fields" chapter](#excluding-some-fields)
 
 
 ## Changelog

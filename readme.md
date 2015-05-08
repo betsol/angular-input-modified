@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="emblem/emblem.png" alt="Angular Input Modified">
+</p>
+
 # angular-input-modified
 
 ![Bower](https://img.shields.io/bower/v/angular-input-modified.svg)

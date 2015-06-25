@@ -1,10 +1,11 @@
 <p align="center">
-  <img src="emblem/emblem.png" alt="Angular Input Modified">
+  <img src="https://raw.githubusercontent.com/betsol/angular-input-modified/master/emblem/emblem.png" alt="Angular Input Modified">
 </p>
 
 # angular-input-modified
 
-![Bower](https://img.shields.io/bower/v/angular-input-modified.svg)
+[![Bower version](https://badge.fury.io/bo/angular-input-modified.svg)](http://badge.fury.io/bo/angular-input-modified)
+[![npm version](https://badge.fury.io/js/angular-input-modified.svg)](http://badge.fury.io/js/angular-input-modified)
 
 
 This Angular.js module adds additional properties and methods to the `ngModel` and `ngForm` controllers,

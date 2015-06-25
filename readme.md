@@ -50,9 +50,14 @@ This module also supports animations if `ngAnimate` module is available.
 
 ## Installation
 
-### Install library with bower
+### Install library with Bower
 
 `bower install --save angular-input-modified`
+
+
+### Install library with NPM
+
+`npm install --save angular-input-modified`
 
 
 ### Add library to your page

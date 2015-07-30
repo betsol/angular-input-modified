@@ -14,12 +14,16 @@ var ngAnnotate = require('gulp-ng-annotate');
 var angularProtractor = require('gulp-angular-protractor');
 var runSequence = require('run-sequence');
 var concat = require('gulp-concat');
+var ncp = require('ncp').ncp;
+var gcallback = require('gulp-callback');
 
 //=========//
 // GLOBALS //
 //=========//
 
 var demoServer;
+
+var deployTmpPath = './.deploy';
 
 
 //=======//
@@ -83,12 +87,54 @@ gulp.task('webserver.stop', function (callback) {
 
 gulp.task('demo', ['webserver.start']);
 
-gulp.task('demo-deploy', function () {
-  return gulp.src('./demos/**/*.*')
-    .pipe(debug({
-      title: 'Deploy'
-    }))
-    .pipe(deploy());
+gulp.task('demo-deploy', function (done) {
+  runSequence(
+    'demo-deploy-before',
+    'demo-deploy-actual',
+    'demo-deploy-after',
+    done
+  );
+});
+
+gulp.task('demo-deploy-actual', function () {
+
+  console.log('Starting to deploy files...');
+
+  return gulp.src(deployTmpPath + '/**/*')
+    .pipe(deploy())
+  ;
+
+});
+
+gulp.task('demo-deploy-before', function (done) {
+
+  // Clearing temp directories and making a temp copy.
+  deployClearTemp(function () {
+    makeTempCopy(done);
+  });
+
+
+  /**
+   * Makes a temporary copy of the demos directory with symlinks resolved.
+   *
+   * @param {function} callback
+   */
+  function makeTempCopy (callback) {
+    ncp('./demos', deployTmpPath, {
+      dereference: true
+    }, function (error) {
+      if (error) {
+        return console.error(error);
+      }
+      console.log('Temporary copy created!');
+      callback();
+    });
+  }
+
+});
+
+gulp.task('demo-deploy-after', function (done) {
+  deployClearTemp(done);
 });
 
 
@@ -117,7 +163,7 @@ gulp.task('test-e2e', function () {
     .on('error', function (error) {
       throw error;
     })
-  ;
+    ;
 });
 
 
@@ -126,3 +172,16 @@ gulp.task('test-e2e', function () {
 //==============//
 
 gulp.task('default', ['build']);
+
+
+/**
+ * Clears temp directory.
+ *
+ * @param {function} callback
+ */
+function deployClearTemp (callback) {
+  del([deployTmpPath, './.publish'], function () {
+    console.log('Temporary directories removed!');
+    callback();
+  });
+}

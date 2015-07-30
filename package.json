@@ -9,6 +9,7 @@
     "del": "~0",
     "gulp": "~3",
     "gulp-angular-protractor": "0.0.2",
+    "gulp-callback": "0.0.3",
     "gulp-concat": "^2.5.2",
     "gulp-debug": "~1",
     "gulp-gh-pages": "~0",
@@ -16,6 +17,7 @@
     "gulp-rename": "~1",
     "gulp-uglify": "~0",
     "gulp-util": "~2",
+    "ncp": "^2.0.0",
     "run-sequence": "^1.0.2",
     "spa-server": "^0.1.0"
   }

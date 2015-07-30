@@ -8,7 +8,10 @@
 
 <body class="fixed-width" ng-controller="DefaultController">
 
-    <h1>Angular.js Input Modified ngRepeat Example</h1>
+    <h1>
+        Angular.js Input Modified<br>
+        <a href="https://github.com/angular-ui/ui-tinymce" target="_blank">Angular UI TinyMCE</a>
+    </h1>
 
     <p><a href="../">&leftarrow; See other demos</a></p>
     <hr>
@@ -19,24 +22,34 @@
             Form modified: {{ myForm.modified ? 'Yes' : 'No' }}
         </pre>
 
-        <pre>{{ fruits|json }}</pre>
-
-        <!-- Fruits -->
+        <!-- Full Name -->
         <div class="form-group">
-            <label class="control-label">Favorite fruits:</label>
-            <div class="control" ng-repeat="fruit in fruits">
-                <div class="checkbox-inline">
-                    <label>
-                        <input type="checkbox" name="fruits[{{ fruit.id }}]" ng-model="fruit.selected">
-                        {{ fruit.title }}
-                    </label>
-                </div>
+            <label class="control-label">Article content:</label>
+            <div class="control">
+                <textarea
+                    name="content"
+                    ui-tinymce
+                    ng-model="article.content"
+                    rows="10"
+                ></textarea>
             </div>
+            <p class="reset">
+                <button ng-click="myForm.content.$setPristine()">Save This Field</button>
+                <button ng-click="myForm.content.reset()">Reset This Field</button>
+            </p>
+
+            <p class="modified">Modified: {{ myForm.content.modified ? 'Yes' : 'No' }}</p>
+
+            <h2>Master value:</h2>
+            <pre>{{ myForm.content.masterValue }}</pre>
+
         </div>
 
         <!-- Buttons -->
         <div class="form-group footer">
-            <p>Button is disabled when form is not modified <i>(nothing to save)</i>
+            <p>
+                Button is disabled when form is not modified
+                <i>(nothing to save)</i>
             </p>
             <div class="control buttons">
                 <button
@@ -60,6 +73,8 @@
 
     <!-- Scripts -->
     <script src="../vendor/angular/angular.js"></script>
+    <script src="../vendor/tinymce/tinymce.js"></script>
+    <script src="../vendor/angular-ui-tinymce/src/tinymce.js"></script>
     <script src="../vendor/angular-input-modified/angular-input-modified.js"></script>
     <script src="script.js"></script>
 

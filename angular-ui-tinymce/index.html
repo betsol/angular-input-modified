@@ -23,7 +23,7 @@
         </pre>
 
         <!-- Full Name -->
-        <div class="form-group">
+        <div class="form-group" ng-class="{valid: myForm.content.$valid, modified: myForm.content.modified}">
             <label class="control-label">Article content:</label>
             <div class="control">
                 <textarea

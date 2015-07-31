@@ -87,32 +87,35 @@ gulp.task('webserver.stop', function (callback) {
 
 gulp.task('demo', ['webserver.start']);
 
-gulp.task('demo-deploy', function (done) {
-  runSequence(
-    'demo-deploy-before',
-    'demo-deploy-actual',
-    'demo-deploy-after',
-    done
-  );
-});
+gulp.task('demo-deploy', function (finishTask) {
 
-gulp.task('demo-deploy-actual', function () {
+  deployFiles(function () {
 
-  console.log('Starting to deploy files...');
+    console.log('Deployed!');
 
-  return gulp.src(deployTmpPath + '/**/*')
-    .pipe(deploy())
-  ;
-
-});
-
-gulp.task('demo-deploy-before', function (done) {
-
-  // Clearing temp directories and making a temp copy.
-  deployClearTemp(function () {
-    makeTempCopy(done);
   });
 
+  // Clearing temp directories and making a temp copy.
+  //clearTemp(function () {
+  //  makeTempCopy(function () {
+  //    deployFiles(function () {
+  //      clearTemp(done)
+  //    })
+  //  });
+  //});
+
+
+  /**
+   * Clears temp directory.
+   *
+   * @param {function} callback
+   */
+  function clearTemp (callback) {
+    del([deployTmpPath, './.publish'], function () {
+      console.log('Temporary directories removed!');
+      callback();
+    });
+  }
 
   /**
    * Makes a temporary copy of the demos directory with symlinks resolved.
@@ -131,10 +134,38 @@ gulp.task('demo-deploy-before', function (done) {
     });
   }
 
+  /**
+   * Deploys files to the server.
+   */
+  function deployFiles (done) {
+    console.log('Starting to deploy files...');
+    gulp.src(deployTmpPath + '/**/*')
+      .pipe(deploy())
+      .on('finish', done)
+    ;
+  }
+
 });
 
-gulp.task('demo-deploy-after', function (done) {
-  deployClearTemp(done);
+var deploy = require('gulp-gh-pages');
+
+gulp.task('demo-deploy', function (finishTask) {
+
+  return deployFiles(function () {
+    console.log('Deployed!');
+  });
+
+  /**
+   * Deploys files to the server.
+   */
+  function deployFiles (done) {
+    console.log('Starting to deploy files...');
+    return gulp.src(deployTmpPath + '/**/*')
+      .pipe(deploy())
+      .on('finish', done)
+    ;
+  }
+
 });
 
 
@@ -173,15 +204,3 @@ gulp.task('test-e2e', function () {
 
 gulp.task('default', ['build']);
 
-
-/**
- * Clears temp directory.
- *
- * @param {function} callback
- */
-function deployClearTemp (callback) {
-  del([deployTmpPath, './.publish'], function () {
-    console.log('Temporary directories removed!');
-    callback();
-  });
-}

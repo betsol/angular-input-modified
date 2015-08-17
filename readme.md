@@ -124,7 +124,21 @@ It's all up to you!
 
 Please see [the special demo][demo-excluded-elements].
 
+### Listen to modifed event from parent scope
 
+When a form is modified, it fires an event `inputModified.formChanged`. Parent scope can listen to this event.
+
+```javascript
+/*
+*  e        --- event
+*  modified --- Boolean
+*  form     --- the modified form object
+*/
+ $scope.$on("inputModified.formChanged", function(e, modified, form) {
+       // process the modified event
+       // use form.$name to get the form name
+ });
+```
 ## API
 
 ### inputModifiedConfigProvider

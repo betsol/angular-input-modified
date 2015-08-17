@@ -124,7 +124,7 @@ It's all up to you!
 
 Please see [the special demo][demo-excluded-elements].
 
-### Listen to the modifed event in parent scope
+### Listening to `modifed` event in parent scope
 
 When a form is modified, it fires an event `inputModified.formChanged`. Parent scopes can listen to this event. This event passes `modified` flag and `form` object. Following is an example of parent scope listening to this event.
 

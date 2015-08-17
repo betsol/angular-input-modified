@@ -108,7 +108,8 @@
             }
 
             updateCssClasses();
-
+            // notify parent scope of the status change
+            $scope.$emit("inputModified.formChanged", formCtrl.modified, formCtrl); 
           }
 
         }

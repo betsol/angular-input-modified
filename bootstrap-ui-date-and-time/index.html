@@ -31,17 +31,16 @@
                     type="text"
                     ng-model="task.dateStart"
                     required
-                    datepicker-popup="dd.MM.yyyy"
+                    uib-datepicker-popup="dd.MM.yyyy"
                     is-open="task.dateStart.opened"
                     ng-focus="task.dateStart.opened = true"
-                    bs-modifiable
                 >
             </div>
 
-            <timepicker
+            <uib-timepicker
                 class="timepicker"
                 ng-model="task.dateStart"
-            ></timepicker>
+            ></uib-timepicker>
 
             <p class="reset">
                 <button ng-click="taskForm.dateStart.$setPristine()">Save This Field</button>
@@ -62,17 +61,16 @@
                     type="text"
                     ng-model="task.dateEnd"
                     required
-                    datepicker-popup="dd.MM.yyyy"
+                    uib-datepicker-popup="dd.MM.yyyy"
                     is-open="task.dateEnd.opened"
                     ng-focus="task.dateEnd.opened = true"
-                    bs-modifiable
                 >
             </div>
 
-            <timepicker
+            <uib-timepicker
                 class="timepicker"
                 ng-model="task.dateEnd"
-            ></timepicker>
+            ></uib-timepicker>
 
             <p class="reset">
                 <button ng-click="taskForm.dateEnd.$setPristine()">Save This Field</button>
@@ -111,8 +109,7 @@
     <!-- Scripts -->
 
     <script src="../vendor/angular/angular.js"></script>
-    <script src="//rawgit.com/angular-ui/bootstrap-bower/0.11.2/ui-bootstrap.js"></script>
-    <script src="//rawgit.com/angular-ui/bootstrap-bower/0.11.2/ui-bootstrap-tpls.js"></script>
+    <script src="//rawgit.com/angular-ui/bootstrap-bower/0.14.3/ui-bootstrap-tpls.js"></script>
     <script src="../vendor/angular-input-modified/angular-input-modified.js"></script>
     <script src="script.js"></script>
 

@@ -21,7 +21,7 @@ angular.module('ui.tinymce', [])
         var ngModel = ctrls[0],
           form = ctrls[1] || null;
 
-        var expression, options, tinyInstance,
+        var expression, options = {}, tinyInstance,
           updateView = function(editor) {
             var content = editor.getContent({format: options.format}).trim();
             content = $sce.trustAsHtml(content);
@@ -32,6 +32,22 @@ angular.module('ui.tinymce', [])
             }
           };
 
+        function toggleDisable(disabled) {
+          if (disabled) {
+            ensureInstance();
+
+            if (tinyInstance) {
+              tinyInstance.getBody().setAttribute('contenteditable', false);
+            }
+          } else {
+            ensureInstance();
+
+            if (tinyInstance && !tinyInstance.settings.readonly) {
+              tinyInstance.getBody().setAttribute('contenteditable', true);
+            }
+          }
+        }
+
         // generate an ID
         attrs.$set('id', ID_ATTR + '-' + generatedIds++);
 
@@ -39,7 +55,7 @@ angular.module('ui.tinymce', [])
 
         angular.extend(expression, scope.$eval(attrs.uiTinymce));
 
-        options = {
+        var setupOptions = {
           // Update model when calling setContent
           // (such as from the source editor popup)
           setup: function(ed) {
@@ -58,7 +74,7 @@ angular.module('ui.tinymce', [])
             });
 
             // Update model on change
-            ed.on('change', function(e) {
+            ed.on('change', function() {
               ed.save();
               updateView(ed);
             });
@@ -83,17 +99,18 @@ angular.module('ui.tinymce', [])
               });
             }
           },
-          format: 'raw',
+          format: expression.format || 'html',
           selector: '#' + attrs.id
         };
         // extend options with initial uiTinymceConfig and
         // options from directive attribute value
-        angular.extend(options, uiTinymceConfig, expression);
+        angular.extend(options, uiTinymceConfig, expression, setupOptions);
         // Wrapped in $timeout due to $tinymce:refresh implementation, requires
         // element to be present in DOM before instantiating editor when
         // re-rendering directive
         $timeout(function() {
           tinymce.init(options);
+          toggleDisable(scope.$eval(attrs.ngDisabled));
         });
 
         ngModel.$formatters.unshift(function(modelValue) {
@@ -116,25 +133,13 @@ angular.module('ui.tinymce', [])
             tinyInstance.getDoc()
           ) {
             tinyInstance.setContent(viewValue);
+            // Triggering change event due to TinyMCE not firing event &
+            // becoming out of sync for change callbacks
             tinyInstance.fire('change');
           }
         };
 
-        attrs.$observe('disabled', function(disabled) {
-          if (disabled) {
-            ensureInstance();
-
-            if (tinyInstance) {
-              tinyInstance.getBody().setAttribute('contenteditable', false);
-            }
-          } else {
-            ensureInstance();
-
-            if (tinyInstance) {
-              tinyInstance.getBody().setAttribute('contenteditable', true);
-            }
-          }
-        });
+        attrs.$observe('disabled', toggleDisable);
 
         // This block is because of TinyMCE not playing well with removal and
         // recreation of instances, requiring instances to have different

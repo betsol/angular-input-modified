@@ -223,8 +223,9 @@ Cheers!
 
 Node.js must be installed in your OS.
 
-- Install [Gulp][gulp] by running `npm install -g gulp`
 - clone the repo
+- `npm i && bower install` to initialize the project
+- install [Gulp][gulp] by running `npm i -g gulp`
 - run `gulp demo` in the repo's root directory
 - open `http://localhost:8888/`
 

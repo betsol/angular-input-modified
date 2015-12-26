@@ -108,8 +108,10 @@
             }
 
             updateCssClasses();
-            // fire formChanged event to parent scopes
-            $scope.$emit("inputModified.formChanged", formCtrl.modified, formCtrl); 
+
+            // Firing event to parent scopes.
+            $scope.$emit('inputModified.formChanged', formCtrl.modified, formCtrl);
+
           }
 
         }

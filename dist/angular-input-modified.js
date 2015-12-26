@@ -188,6 +188,9 @@
 
             updateCssClasses();
 
+            // Firing event to parent scopes.
+            $scope.$emit('inputModified.formChanged', formCtrl.modified, formCtrl);
+
           }
 
         }

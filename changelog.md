@@ -1,5 +1,11 @@
 # angular-input-modified changelog
 
+## Version 2.3.0
+(26 Dec 2015)
+
+- Added form change event
+
+
 ## Version 2.2.5
 (30 Jul 2015)
 

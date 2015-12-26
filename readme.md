@@ -124,20 +124,23 @@ It's all up to you!
 
 Please see [the special demo][demo-excluded-elements].
 
-### Listening to `formChanged` event in parent scope
+### Listening for form changes
 
-When a form is modified, it fires an event `inputModified.formChanged`. Parent scopes can listen to this event. This event passes `modified` flag and `form` object. Following is an example of parent scope listening to this event.
+When a form is modified, it fires the `inputModified.formChanged` event.
+Parent scopes can listen to this event.
+Modification flag and reference to the form controller are passed to event listener.
+Following is an example of parent scope listening to this event.
 
 ```javascript
-/*
-*  e        --- event
-*  modified --- Boolean
-*  form     --- the modified form object
-*/
- $scope.$on("inputModified.formChanged", function(e, modified, form) {
-       // process the modified event
-       // use form.$name to get the form name
- });
+/**
+ * @param {object}  event
+ * @param {boolean} modified
+ * @param {object}  formCtrl
+ */
+$scope.$on('inputModified.formChanged', function (event, modified, formCtrl) {
+  // Process the modified event,
+  // use formCtrl.$name to get the form name.
+});
 ```
 
 ## API
@@ -195,11 +198,15 @@ angular.module('Application', ['ngInputModified'])
 | modifiedChildFormsCount  | `integer`  | The number of modified child forms
 | modifiedChildForms       | `array`    | The list of modified child form controllers
 
-
 | Method          | Description
 |-----------------|------------------------------------------------------------------------
 | reset()         | Resets all input fields of the form to their initial states
 | $setPristine()  | Makes form pristine by making all child forms and form fields pristine
+
+| Event                      | Listener Attributes        | Description
+|----------------------------|----------------------------|------------------------------------------------------------------------
+| inputModified.formChanged  | event, modified, formCtrl  | Fired up through the scope chain when form is changed
+
 
 
 ### bsModifiable

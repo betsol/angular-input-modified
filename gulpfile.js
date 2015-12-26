@@ -163,7 +163,7 @@ gulp.task('test-e2e', function () {
     .on('error', function (error) {
       throw error;
     })
-    ;
+  ;
 });
 
 

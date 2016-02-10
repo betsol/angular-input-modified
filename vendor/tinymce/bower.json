@@ -1,8 +1,7 @@
 {
 	"name": "tinymce",
-	"version": "4.2.7",
 	"description": "Web based JavaScript HTML WYSIWYG editor control.",
-	"license": "http://www.tinymce.com/license",
+	"license": "LGPL-2.1",
 	"keywords": [
 		"editor",
 		"wysiwyg",
@@ -12,7 +11,6 @@
 		"html"
 	],
 	"homepage": "http://www.tinymce.com",
-	"main": "tinymce.min.js",
 	"ignore": [
 		"readme.md",
 		"composer.json",

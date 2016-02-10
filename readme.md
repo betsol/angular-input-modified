@@ -57,7 +57,7 @@ This module also supports animations if `ngAnimate` module is available.
 
 ### Install library with NPM
 
-`npm install --save angular-input-modified`
+`npm i --save angular-input-modified`
 
 
 ### Add library to your page
@@ -258,7 +258,7 @@ Fork, clone, create a feature branch, commit, create a PR.
 
 Run:
 
-- `npm install && bower install` to initialize the project
+- `npm i && bower install` to initialize the project
 - `gulp build` to re-build the dist files
 - `gulp demo` to run local webserver with demos
 - `gulp demo-deploy` to deploy GitHub Pages
@@ -278,7 +278,7 @@ Thank you!
 
 The MIT License (MIT)
 
-Copyright (c) 2014 - 2015 Slava Fomin II, BETTER SOLUTIONS
+Copyright (c) 2014 - 2016 Slava Fomin II, BETTER SOLUTIONS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

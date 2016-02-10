@@ -14,10 +14,16 @@
    * @param {object} $animate
    * @param {object} inputModifiedConfig
    * @param {function} $timeout
+   * @param {function} $parse
    *
    * @returns {object}
    */
-  function ngModelModifiedFactory ($animate, inputModifiedConfig, $timeout) {
+  function ngModelModifiedFactory (
+    $animate,
+    inputModifiedConfig,
+    $timeout,
+    $parse
+  ) {
 
     // Shortcut.
     var config = inputModifiedConfig;
@@ -32,6 +38,9 @@
          * It can be as simple as: "foo" or as complex as "foo.bar[1].baz.qux".
          */
         var modelPath = attrs.ngModel;
+
+        // We will initialize it later when needed.
+        var modelValueSetter;
 
         // Handling controllers.
         var modelCtrl = controllers[0];
@@ -152,11 +161,10 @@
          * Replaces current input value with a master value.
          */
         function reset () {
-          try {
-            eval('$scope.' + modelPath + ' = modelCtrl.masterValue;');
-          } catch (exception) {
-            // Missing specified model. Do nothing.
+          if (!modelValueSetter) {
+            modelValueSetter = $parse(modelPath).assign;
           }
+          modelValueSetter($scope, modelCtrl.masterValue);
         }
 
         /**

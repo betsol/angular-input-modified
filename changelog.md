@@ -1,5 +1,11 @@
 # angular-input-modified changelog
 
+## Version 2.3.1
+(10 Feb 2016)
+
+- Refactored `reset()` functionality, it is much more reliable now
+
+
 ## Version 2.3.0
 (26 Dec 2015)
 

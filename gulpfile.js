@@ -14,6 +14,7 @@ var ngAnnotate = require('gulp-ng-annotate');
 var angularProtractor = require('gulp-angular-protractor');
 var runSequence = require('run-sequence');
 var concat = require('gulp-concat');
+var header = require('gulp-header');
 var ncp = require('ncp').ncp;
 var gcallback = require('gulp-callback');
 
@@ -52,6 +53,12 @@ gulp.task('build', ['clean'], function () {
     .pipe(ngAnnotate({
       'single_quotes': true
     }))
+    .pipe(header(
+      '/* commonjs package manager support (eg componentjs) */\n' +
+      'if (typeof module !== "undefined" && typeof exports !== "undefined" && module.exports === exports){\n' +
+      '  module.exports = \'ngInputModified\';\n' +
+      '}\n\n'
+    ))
     .pipe(gulp.dest('dist'))
     .pipe(uglify())
     .pipe(rename('angular-input-modified.min.js'))

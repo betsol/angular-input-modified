@@ -1,3 +1,11 @@
+/**
+ * angular-input-modified - Angular.js module to detect and indicate input modifications
+ * @version v2.3.1
+ * @link https://github.com/betsol/angular-input-modified
+ * @license MIT
+ *
+ * @author Slava Fomin II <s.fomin@betsol.ru>
+ */
 (function (window, angular) {
 
   'use strict';
@@ -285,8 +293,8 @@
         // or when global switch is set.
         var enabled = (bsModifiable ? bsModifiable.isEnabled() : undefined);
         if (
-             ( config.enabledGlobally && false == enabled)
-          || (!config.enabledGlobally && true !== enabled)
+             ( config.enabledGlobally && false === enabled) ||
+             (!config.enabledGlobally && true  !== enabled)
         ) {
           return;
         }

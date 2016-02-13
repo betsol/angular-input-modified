@@ -58,8 +58,8 @@
         // or when global switch is set.
         var enabled = (bsModifiable ? bsModifiable.isEnabled() : undefined);
         if (
-             ( config.enabledGlobally && false == enabled)
-          || (!config.enabledGlobally && true !== enabled)
+             ( config.enabledGlobally && false === enabled) ||
+             (!config.enabledGlobally && true  !== enabled)
         ) {
           return;
         }

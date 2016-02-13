@@ -2,6 +2,10 @@
 // DEPENDENCIES //
 //==============//
 
+var pkg = require('./package.json');
+
+var fs = require('fs');
+
 var del = require('del');
 var gulp = require('gulp');
 var rename = require('gulp-rename');
@@ -15,7 +19,9 @@ var angularProtractor = require('gulp-angular-protractor');
 var runSequence = require('run-sequence');
 var concat = require('gulp-concat');
 var ncp = require('ncp').ncp;
-var gcallback = require('gulp-callback');
+var jshint = require('gulp-jshint');
+var header = require('gulp-header');
+
 
 //=========//
 // GLOBALS //
@@ -40,6 +46,7 @@ gulp.task('clean', function (callback) {
 //=======//
 
 gulp.task('build', ['clean'], function () {
+  var headerContent = fs.readFileSync('src/header.js', 'utf8');
   gulp
     .src([
       // This file contains module registration and therefore should go first.
@@ -48,13 +55,17 @@ gulp.task('build', ['clean'], function () {
       './src/directive/form.js',
       './src/directive/ngModel.js'
     ])
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
     .pipe(concat('angular-input-modified.js'))
     .pipe(ngAnnotate({
       'single_quotes': true
     }))
+    .pipe(header(headerContent, { pkg : pkg } ))
     .pipe(gulp.dest('dist'))
     .pipe(uglify())
     .pipe(rename('angular-input-modified.min.js'))
+    .pipe(header(headerContent, { pkg : pkg } ))
     .pipe(gulp.dest('dist'))
     .on('error', gutil.log)
   ;

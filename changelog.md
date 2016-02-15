@@ -1,5 +1,11 @@
 # angular-input-modified changelog
 
+## Version 2.3.2
+(15 Feb 2016)
+
+- Added CommonJS support
+
+
 ## Version 2.3.1
 (10 Feb 2016)
 

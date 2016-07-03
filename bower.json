@@ -1,7 +1,8 @@
 {
   "name": "angular-input-modified",
   "description": "Angular.js module to detect and indicate input modifications",
-  "version": "2.3.2",
+  "version": "2.3.3",
+  "license": "MIT",
   "main": "dist/angular-input-modified.js",
   "ignore": [
     "demos",

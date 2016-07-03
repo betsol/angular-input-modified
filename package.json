@@ -1,7 +1,7 @@
 {
   "name": "angular-input-modified",
   "description": "Angular.js module to detect and indicate input modifications",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "homepage": "https://github.com/betsol/angular-input-modified",
   "license": "MIT",
   "main": "index.js",

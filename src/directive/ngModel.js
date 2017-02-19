@@ -141,7 +141,7 @@
           stabilizeValue(function () {
 
             // Calling overloaded method.
-            originalSetPristine.apply(this, arguments);
+            if (this) originalSetPristine.apply(this, arguments);
 
             // Updating parameters.
             modelCtrl.masterValue = modelCtrl.$modelValue;

@@ -17,6 +17,7 @@
     "angular": "~1"
   },
   "devDependencies": {
-    "angular-ui-tinymce": "~0.0.10"
+    "angular-ui-tinymce": "~0.0.18",
+    "bootstrap": "^3.3.7"
   }
 }

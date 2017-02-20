@@ -8,7 +8,7 @@
 [![npm version](https://badge.fury.io/js/angular-input-modified.svg)](http://badge.fury.io/js/angular-input-modified)
 
 
-This Angular.js module adds additional properties and methods to the `ngModel` and `ngForm` controllers,
+This Angular module adds additional properties and methods to the `ngModel` and `ngForm` controllers,
 as well as CSS classes to the underlying form elements
 to provide end-user with facilities to detect and indicate changes in form data.
 

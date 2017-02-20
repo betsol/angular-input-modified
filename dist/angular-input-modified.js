@@ -1,6 +1,6 @@
 /**
- * angular-input-modified - Angular.js module to detect and indicate input modifications
- * @version v2.3.3
+ * angular-input-modified - Angular module to detect and indicate input modifications
+ * @version v2.3.4
  * @link https://github.com/betsol/angular-input-modified
  * @license MIT
  *
@@ -373,10 +373,12 @@
          */
         function setPristine () {
 
+          var args = arguments;
+
           stabilizeValue(function () {
 
             // Calling overloaded method.
-            originalSetPristine.apply(this, arguments);
+            originalSetPristine.apply(modelCtrl, args);
 
             // Updating parameters.
             modelCtrl.masterValue = modelCtrl.$modelValue;

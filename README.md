@@ -50,14 +50,13 @@ This module also supports animations if `ngAnimate` module is available.
 
 ## Installation
 
+### Install library with npm
+
+`npm i -D angular-input-modified`
+
 ### Install library with Bower
 
-`bower install --save angular-input-modified`
-
-
-### Install library with NPM
-
-`npm i --save angular-input-modified`
+`bower install --save-dev angular-input-modified`
 
 
 ### Add library to your page
@@ -249,7 +248,7 @@ Node.js must be installed in your OS.
 - `npm i && bower install` to initialize the project
 - install [Gulp][gulp] by running `npm i -g gulp`
 - run `gulp demo` in the repo's root directory
-- open `http://localhost:8888/`
+- open [`http://localhost:8888/`][local-demo]
 
 
 ## Developer guide
@@ -260,7 +259,7 @@ Run:
 
 - `npm i && bower install` to initialize the project
 - `gulp build` to re-build the dist files
-- `gulp demo` to run local webserver with demos
+- `gulp demo` to run [local webserver][local-demo] with demos on port `8888`
 - `gulp demo-deploy` to deploy GitHub Pages
 
 Do not add dist files to the PR itself.
@@ -278,7 +277,7 @@ Thank you!
 
 The MIT License (MIT)
 
-Copyright (c) 2014 - 2016 Slava Fomin II, BETTER SOLUTIONS
+Copyright (c) 2014 - 2017 Slava Fomin II, BETTER SOLUTIONS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -298,15 +297,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-  [changelog]: changelog.md
-  [so-ask]:    http://stackoverflow.com/questions/ask?tags=angularjs,javascript,forms
-  [email]:     mailto:s.fomin@betsol.ru
-  [plunker]:   http://plnkr.co/
-  [new-issue]: https://github.com/betsol/angular-input-modified/issues/new
-  [gh-pages]:  http://betsol.github.io/angular-input-modified/
-  [plunk]:     http://plnkr.co/edit/g2MDXv81OOBuGo6ORvdt?p=preview
-  [gulp]:      http://gulpjs.com/
-  [repo-gh]:   https://github.com/betsol/angular-input-modified
+
+  [changelog]:  changelog.md
+  [so-ask]:     http://stackoverflow.com/questions/ask?tags=angularjs,javascript,forms
+  [email]:      mailto:s.fomin@betsol.ru
+  [plunker]:    http://plnkr.co/
+  [new-issue]:  https://github.com/betsol/angular-input-modified/issues/new
+  [gh-pages]:   http://betsol.github.io/angular-input-modified/
+  [plunk]:      http://plnkr.co/edit/g2MDXv81OOBuGo6ORvdt?p=preview
+  [gulp]:       http://gulpjs.com/
+  [repo-gh]:    https://github.com/betsol/angular-input-modified
+  [local-demo]: http://localhost:8888/
 
   [demo-delayed-init]: http://betsol.github.io/angular-input-modified/delayed-init/
   [demo-excluded-elements]: http://betsol.github.io/angular-input-modified/excluded-elements/

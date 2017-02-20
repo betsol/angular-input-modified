@@ -1,7 +1,7 @@
 {
   "name": "angular-input-modified",
   "description": "Angular module to detect and indicate input modifications",
-  "version": "2.3.4",
+  "version": "2.3.5",
   "homepage": "https://github.com/betsol/angular-input-modified",
   "license": "MIT",
   "main": "index.js",
@@ -25,5 +25,14 @@
     "ncp": "^2.0.0",
     "run-sequence": "^1.0.2",
     "spa-server": "^0.1.0"
-  }
+  },
+  "keywords": [
+    "angular",
+    "angularjs",
+    "form",
+    "forms",
+    "input",
+    "modification",
+    "ui"
+  ]
 }

@@ -1,6 +1,6 @@
 /**
  * angular-input-modified - Angular module to detect and indicate input modifications
- * @version v2.3.4
+ * @version v2.3.5
  * @link https://github.com/betsol/angular-input-modified
  * @license MIT
  *

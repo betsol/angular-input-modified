@@ -1,7 +1,7 @@
 {
   "name": "angular-input-modified",
   "description": "Angular module to detect and indicate input modifications",
-  "version": "2.3.4",
+  "version": "2.3.5",
   "license": "MIT",
   "main": "dist/angular-input-modified.js",
   "ignore": [
@@ -19,5 +19,14 @@
   "devDependencies": {
     "angular-ui-tinymce": "~0.0.18",
     "bootstrap": "^3.3.7"
-  }
+  },
+  "keywords": [
+    "angular",
+    "angularjs",
+    "form",
+    "forms",
+    "input",
+    "modification",
+    "ui"
+  ]
 }

@@ -138,10 +138,12 @@
          */
         function setPristine () {
 
+          var args = arguments;
+
           stabilizeValue(function () {
 
             // Calling overloaded method.
-            originalSetPristine.apply(this, arguments);
+            originalSetPristine.apply(modelCtrl, args);
 
             // Updating parameters.
             modelCtrl.masterValue = modelCtrl.$modelValue;

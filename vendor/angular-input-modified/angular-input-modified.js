@@ -1,3 +1,11 @@
+/**
+ * angular-input-modified - Angular module to detect and indicate input modifications
+ * @version v2.3.5
+ * @link https://github.com/betsol/angular-input-modified
+ * @license MIT
+ *
+ * @author Slava Fomin II <s.fomin@betsol.ru>
+ */
 (function (window, angular) {
 
   'use strict';
@@ -285,8 +293,8 @@
         // or when global switch is set.
         var enabled = (bsModifiable ? bsModifiable.isEnabled() : undefined);
         if (
-             ( config.enabledGlobally && false == enabled)
-          || (!config.enabledGlobally && true !== enabled)
+             ( config.enabledGlobally && false === enabled) ||
+             (!config.enabledGlobally && true  !== enabled)
         ) {
           return;
         }
@@ -365,10 +373,12 @@
          */
         function setPristine () {
 
+          var args = arguments;
+
           stabilizeValue(function () {
 
             // Calling overloaded method.
-            originalSetPristine.apply(this, arguments);
+            originalSetPristine.apply(modelCtrl, args);
 
             // Updating parameters.
             modelCtrl.masterValue = modelCtrl.$modelValue;

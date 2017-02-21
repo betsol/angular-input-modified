@@ -28,12 +28,12 @@ Unfortunately we are not able to investigate / fix bugs without a minimal reprod
 
 We are always looking for the quality contributions and will be happy to accept your Pull Requests as long as those adhere to some basic rules:
 
-* Please open all pull requests against the `dev` branch.
+* Please open all pull requests against the `master` branch.
 * Please assure that you are submitting quality code, specifically make sure that:
   * You have accompanying tests and all the tests are passing.  See testing below.
   * Your PR doesn't break the build; check the Travis-CI build status after opening a PR and push corrective commits if anything goes wrong
   * You are using 2 space indentation
-  * Your commits conform to the conventions established [here](https://github.com/ajoslin/conventional-changelog/blob/master/conventions/angular.md)
+  * Your commits conform to the conventions established [here](https://github.com/stevemao/conventional-changelog-angular/blob/master/convention.md)
 
 
 ## Testing

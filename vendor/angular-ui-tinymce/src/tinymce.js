@@ -3,16 +3,16 @@
  */
 angular.module('ui.tinymce', [])
   .value('uiTinymceConfig', {})
-  .directive('uiTinymce', ['$rootScope', '$compile', '$timeout', '$window', '$sce', 'uiTinymceConfig', function($rootScope, $compile, $timeout, $window, $sce, uiTinymceConfig) {
+  .directive('uiTinymce', ['$rootScope', '$compile', '$timeout', '$window', '$sce', 'uiTinymceConfig', 'uiTinymceService', function($rootScope, $compile, $timeout, $window, $sce, uiTinymceConfig, uiTinymceService) {
     uiTinymceConfig = uiTinymceConfig || {};
-    var generatedIds = 0;
-    var ID_ATTR = 'ui-tinymce';
+
     if (uiTinymceConfig.baseUrl) {
       tinymce.baseURL = uiTinymceConfig.baseUrl;
     }
 
     return {
       require: ['ngModel', '^?form'],
+      priority: 599,
       link: function(scope, element, attrs, ctrls) {
         if (!$window.tinymce) {
           return;
@@ -21,14 +21,16 @@ angular.module('ui.tinymce', [])
         var ngModel = ctrls[0],
           form = ctrls[1] || null;
 
-        var expression, options = {}, tinyInstance,
+        var expression, options = {
+          debounce: true
+        }, tinyInstance,
           updateView = function(editor) {
             var content = editor.getContent({format: options.format}).trim();
             content = $sce.trustAsHtml(content);
 
             ngModel.$setViewValue(content);
             if (!$rootScope.$$phase) {
-              scope.$apply();
+              scope.$digest();
             }
           };
 
@@ -42,18 +44,35 @@ angular.module('ui.tinymce', [])
           } else {
             ensureInstance();
 
-            if (tinyInstance && !tinyInstance.settings.readonly) {
+            if (tinyInstance && !tinyInstance.settings.readonly && tinyInstance.getDoc()) {
               tinyInstance.getBody().setAttribute('contenteditable', true);
             }
           }
         }
 
-        // generate an ID
-        attrs.$set('id', ID_ATTR + '-' + generatedIds++);
+        // fetch a unique ID from the service
+        var uniqueId = uiTinymceService.getUniqueId();
+        attrs.$set('id', uniqueId);
 
         expression = {};
 
         angular.extend(expression, scope.$eval(attrs.uiTinymce));
+
+        //Debounce update and save action
+        var debouncedUpdate = (function(debouncedUpdateDelay) {
+          var debouncedUpdateTimer;
+          return function(ed) {
+	        $timeout.cancel(debouncedUpdateTimer);
+	         debouncedUpdateTimer = $timeout(function() {
+              return (function(ed) {
+                if (ed.isDirty()) {
+                  ed.save();
+                  updateView(ed);
+                }
+              })(ed);
+            }, debouncedUpdateDelay);
+          };
+        })(400);
 
         var setupOptions = {
           // Update model when calling setContent
@@ -62,36 +81,43 @@ angular.module('ui.tinymce', [])
             ed.on('init', function() {
               ngModel.$render();
               ngModel.$setPristine();
+                ngModel.$setUntouched();
               if (form) {
                 form.$setPristine();
               }
             });
 
-            // Update model on button click
-            ed.on('ExecCommand', function() {
-              ed.save();
-              updateView(ed);
-            });
-
-            // Update model on change
-            ed.on('change NodeChange', function() {
-              ed.save();
-              updateView(ed);
+            // Update model when:
+            // - a button has been clicked [ExecCommand]
+            // - the editor content has been modified [change]
+            // - the node has changed [NodeChange]
+            // - an object has been resized (table, image) [ObjectResized]
+            ed.on('ExecCommand change NodeChange ObjectResized', function() {
+              if (!options.debounce) {
+                ed.save();
+                updateView(ed);
+              	return;
+              }
+              debouncedUpdate(ed);
             });
 
             ed.on('blur', function() {
               element[0].blur();
-            });
-
-            // Update model when an object has been resized (table, image)
-            ed.on('ObjectResized', function() {
-              ed.save();
-              updateView(ed);
+              ngModel.$setTouched();
+              if (!$rootScope.$$phase) {
+                scope.$digest();
+              }
             });
 
             ed.on('remove', function() {
               element.remove();
             });
+
+            if (uiTinymceConfig.setup) {
+              uiTinymceConfig.setup(ed, {
+                updateView: updateView
+              });
+            }
 
             if (expression.setup) {
               expression.setup(ed, {
@@ -110,10 +136,16 @@ angular.module('ui.tinymce', [])
         // re-rendering directive
         $timeout(function() {
           if (options.baseURL){
-            tinymce.baseURL = options.baseURL;            
+            tinymce.baseURL = options.baseURL;
           }
-          tinymce.init(options);
-          toggleDisable(scope.$eval(attrs.ngDisabled));
+          var maybeInitPromise = tinymce.init(options);
+          if(maybeInitPromise && typeof maybeInitPromise.then === 'function') {
+            maybeInitPromise.then(function() {
+              toggleDisable(scope.$eval(attrs.ngDisabled));
+            });
+          } else {
+            toggleDisable(scope.$eval(attrs.ngDisabled));
+          }
         });
 
         ngModel.$formatters.unshift(function(modelValue) {
@@ -176,4 +208,27 @@ angular.module('ui.tinymce', [])
         }
       }
     };
-  }]);
+  }])
+  .service('uiTinymceService', [
+    /**
+     * A service is used to create unique ID's, this prevents duplicate ID's if there are multiple editors on screen.
+     */
+    function() {
+      var UITinymceService = function() {
+   	    var ID_ATTR = 'ui-tinymce';
+    	// uniqueId keeps track of the latest assigned ID
+    	var uniqueId = 0;
+        // getUniqueId returns a unique ID
+    	var getUniqueId = function() {
+          uniqueId ++;
+          return ID_ATTR + '-' + uniqueId;
+        };
+        // return the function as a public method of the service
+        return {
+        	getUniqueId: getUniqueId
+        };
+      };
+      // return a new instance of the service
+      return new UITinymceService();
+    }
+  ]);

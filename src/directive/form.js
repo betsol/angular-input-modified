@@ -1,4 +1,4 @@
-(function (window, angular) {
+(function (angular) {
 
   'use strict';
 
@@ -39,16 +39,23 @@
         // Modified models.
         formCtrl.modifiedCount = 0;
         formCtrl.modifiedModels = [];
-        formCtrl.$$notifyModelModifiedStateChanged = function (modelCtrl) {
+        formCtrl.$$onChildModelModifiedStateChanged = function (modelCtrl) {
           onModifiedStateChanged(modelCtrl, formCtrl.modifiedModels);
         };
 
         // Modified child forms.
         formCtrl.modifiedChildFormsCount = 0;
         formCtrl.modifiedChildForms = [];
-        formCtrl.$$notifyChildFormModifiedStateChanged = function (childFormCtrl) {
+        formCtrl.$$onChildFormModifiedStateChanged = function (childFormCtrl) {
           onModifiedStateChanged(childFormCtrl, formCtrl.modifiedChildForms);
         };
+        formCtrl.$$onChildFormDestroyed = onChildFormDestroyed;
+
+        $element.on('$destroy', function () {
+          if (parentFormCtrl && 'function' === typeof parentFormCtrl.$$onChildFormDestroyed) {
+              parentFormCtrl.$$onChildFormDestroyed(formCtrl);
+          }
+        });
 
 
         /**
@@ -73,46 +80,48 @@
          * It will update the corresponding tracking list, the number of modified components
          * and the form itself if required.
          *
-         * @param ctrl  The modified model or modified form controller
-         * @param list  The tracking list of modified controllers (models or forms)
+         * @param {FormController|NgModelController} ctrl  The modified model or modified form controller
+         * @param {FormController[]|NgModelController[]} list  The tracking list of modified controllers (models or forms)
          */
         function onModifiedStateChanged (ctrl, list) {
 
           var listIndex = list.indexOf(ctrl);
           var presentInList = (-1 !== listIndex);
 
-          var updateRequired = true;
-
           if (ctrl.modified && !presentInList) {
 
             // Adding model to the internal list of modified models.
             list.push(ctrl);
+
+            updateFormState();
 
           } else if (!ctrl.modified && presentInList) {
 
             // Removing model from the internal list of modified models.
             list.splice(listIndex, 1);
 
-          } else {
-            // Edge case when update is not required.
-            updateRequired = false;
-          }
-
-          if (updateRequired) {
-
-            updateModifiedState();
-
-            // Notifying the parent form if it presents.
-            if (parentFormCtrl && 'function' === typeof parentFormCtrl.$$notifyChildFormModifiedStateChanged) {
-              parentFormCtrl.$$notifyChildFormModifiedStateChanged(formCtrl);
-            }
-
-            updateCssClasses();
-
-            // Firing event to parent scopes.
-            $scope.$emit('inputModified.formChanged', formCtrl.modified, formCtrl);
+            updateFormState();
 
           }
+
+        }
+
+        /**
+         * Updates form state and notifies it's parents.
+         */
+        function updateFormState () {
+
+          updateModifiedState();
+
+          // Notifying the parent form if it presents.
+          if (parentFormCtrl && 'function' === typeof parentFormCtrl.$$onChildFormModifiedStateChanged) {
+              parentFormCtrl.$$onChildFormModifiedStateChanged(formCtrl);
+          }
+
+          updateCssClasses();
+
+          // Firing event to parent scopes.
+          $scope.$emit('inputModified.formChanged', formCtrl.modified, formCtrl);
 
         }
 
@@ -140,8 +149,29 @@
           $animate.removeClass($element, (formCtrl.modified ? config.notModifiedClassName : config.modifiedClassName));
         }
 
+        /**
+         * Called when one of child forms are removed from DOM.
+         * Updates internal list of modified child forms in order to keep correct state.
+         *
+         * @param {FormController} childFormCtrl
+         */
+        function onChildFormDestroyed (childFormCtrl) {
+
+          var index = formCtrl.modifiedChildForms.indexOf(childFormCtrl);
+
+          if (-1 === index) {
+            return;
+          }
+
+          // Removing form from the list.
+          formCtrl.modifiedChildForms.splice(index, 1);
+
+          updateFormState();
+
+        }
+
       }
     };
   }
 
-})(window, angular);
+})(angular);

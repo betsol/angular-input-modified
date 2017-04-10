@@ -1,5 +1,11 @@
 # angular-input-modified changelog
 
+## Version 2.4.0
+(10 Apr 2017)
+
+- State of the form is now properly updated when child form is removed from the DOM
+
+
 ## Version 2.3.2
 (15 Feb 2016)
 

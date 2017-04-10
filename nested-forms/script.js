@@ -9,6 +9,10 @@
         about: '',
         gender: 'unknown'
       };
+      $scope.showThirdForm = true;
+      $scope.toggleThirdForm = function () {
+          $scope.showThirdForm = !$scope.showThirdForm;
+      }
     })
   ;
 

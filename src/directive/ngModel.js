@@ -150,7 +150,9 @@
             modelCtrl.modified = false;
 
             // Notifying the form.
-            formCtrl.$$onChildModelModifiedStateChanged(modelCtrl);
+            if (formCtrl && 'function' === typeof formCtrl.$$onChildModelModifiedStateChanged) {
+              formCtrl.$$onChildModelModifiedStateChanged(modelCtrl);
+            }
 
             // Re-decorating the element.
             updateCssClasses();

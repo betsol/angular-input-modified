@@ -1,6 +1,6 @@
 /**
  * angular-input-modified - Angular module to detect and indicate input modifications
- * @version v2.4.0
+ * @version v2.4.1
  * @link https://github.com/betsol/angular-input-modified
  * @license MIT
  *
@@ -415,7 +415,9 @@
             modelCtrl.modified = false;
 
             // Notifying the form.
-            formCtrl.$$onChildModelModifiedStateChanged(modelCtrl);
+            if (formCtrl && 'function' === typeof formCtrl.$$onChildModelModifiedStateChanged) {
+              formCtrl.$$onChildModelModifiedStateChanged(modelCtrl);
+            }
 
             // Re-decorating the element.
             updateCssClasses();

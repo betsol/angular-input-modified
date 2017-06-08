@@ -150,7 +150,7 @@
         }
 
         /**
-         * Called when one of child forms are removed from DOM.
+         * Called when one of child forms is removed from DOM.
          * Updates internal list of modified child forms in order to keep correct state.
          *
          * @param {FormController} childFormCtrl

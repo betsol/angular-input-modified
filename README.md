@@ -50,19 +50,19 @@ This module also supports animations if `ngAnimate` module is available.
 
 ## Installation
 
+### Install library with yarn
+
+`yarn add -D angular-input-modified`
+
 ### Install library with npm
 
 `npm i -D angular-input-modified`
-
-### Install library with Bower
-
-`bower install --save-dev angular-input-modified`
 
 
 ### Add library to your page
 
 ``` html
-<script src="/bower_components/angular-input-modified/dist/angular-input-modified.js"></script>
+<script src="/node_modules/angular-input-modified/dist/angular-input-modified.js"></script>
 ```
 
 You should use minified version (`angular-input-modified.min.js`) in production.
@@ -257,7 +257,7 @@ Fork, clone, create a feature branch, commit, create a PR.
 
 Run:
 
-- `npm i && bower install` to initialize the project
+- `yarn install && bower install` to initialize the project
 - `gulp build` to re-build the dist files
 - `gulp demo` to run [local webserver][local-demo] with demos on port `8888`
 - `gulp demo-deploy` to deploy GitHub Pages

@@ -1,6 +1,6 @@
 /**
  * angular-input-modified - Angular module to detect and indicate input modifications
- * @version v2.4.1
+ * @version v2.4.2
  * @link https://github.com/betsol/angular-input-modified
  * @license MIT
  *
@@ -237,7 +237,7 @@
         }
 
         /**
-         * Called when one of child forms are removed from DOM.
+         * Called when one of child forms is removed from DOM.
          * Updates internal list of modified child forms in order to keep correct state.
          *
          * @param {FormController} childFormCtrl

@@ -80,7 +80,7 @@
         modelCtrl.reset = reset;
 
         // Watching for model value changes.
-        $scope.$watch(modelPath, onInputValueChanged);
+        $scope.$watch(modelPath, onInputValueChanged, true);
 
 
         /**
@@ -117,7 +117,7 @@
         function initializeMasterValue () {
 
           // Initializing the master value.
-          modelCtrl.masterValue = modelCtrl.$modelValue;
+          modelCtrl.masterValue = angular.copy(modelCtrl.$modelValue);
 
           // Initially decorating the element.
           updateCssClasses();
@@ -146,7 +146,7 @@
             originalSetPristine.apply(modelCtrl, args);
 
             // Updating parameters.
-            modelCtrl.masterValue = modelCtrl.$modelValue;
+            modelCtrl.masterValue = angular.copy(modelCtrl.$modelValue);
             modelCtrl.modified = false;
 
             // Notifying the form.
@@ -168,7 +168,8 @@
           if (!modelValueSetter) {
             modelValueSetter = $parse(modelPath).assign;
           }
-          modelValueSetter($scope, modelCtrl.masterValue);
+          var masterValueTemp = angular.copy(modelCtrl.masterValue);
+          modelValueSetter($scope, masterValueTemp);
         }
 
         /**
